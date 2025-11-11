@@ -6,3 +6,11 @@
 > Простое и красивое приложение для планирования задач с поддержкой напоминаний и удобным управлением задачами.
 
 ![Image alt](https://github.com/Softikk31/SmartDay/blob/master/SmartDay_RELEASE_ALPHA_1_0.png)
+
+## Лицензия
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Проект распространяется под лицензией [MIT](LICENSE).
+
+Авторские права © 2025 [Softikk](https://github.com/Softikk31)
