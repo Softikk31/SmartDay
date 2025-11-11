@@ -7,6 +7,10 @@
 
 ![Image alt](https://github.com/Softikk31/SmartDay/blob/master/SmartDay_RELEASE_ALPHA_1_0.png)
 
+## Скачать APK
+
+[![Скачать SmartDay v1.0-alpha](https://img.shields.io/badge/Download-SmartDay%20v1.0--alpha-brightgreen?style=for-the-badge&logo=android)](https://github.com/Softikk31/SmartDay/releases/download/v1.0-alpha/SmartDay-v1.0-alpha.apk)
+
 ## Лицензия
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
