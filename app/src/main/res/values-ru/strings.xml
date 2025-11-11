@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="secondary_title_month">месяц</string>
+    <string name="title_settings">Настройки</string>
+    <string name="nav_home">Главная</string>
+    <string name="nav_tasks">Задачи</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="title_create_task">Новая задача</string>
+    <string name="title_tasks">Задачи</string>
+    <string name="no_tasks_found_text">Задач не найдено</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="after_tomorrow">Послезавтра</string>
+    <string name="task_category_completed">Выполненные</string>
+    <string name="task_category_no_date">Без даты</string>
+    <string name="task_category_overdue">Просрочено</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Отменить</string>
+    <string name="reminder_set_time">Указать время напоминания</string>
+    <string name="notification_time">Время напоминания</string>
+    <string name="no_date">Без даты</string>
+    <string name="no_time">Без времени</string>
+    <string name="task_title">Название</string>
+    <string name="task_create_button_title_date">Дата</string>
+    <string name="task_create_button_title_reminder_time">Время напоминания</string>
+    <string name="title_edit_task">Редактировать задачу</string>
+    <string name="time">Время</string>
+    <string name="delete">Удалить</string>
+    <plurals name="selected_task_title">
+        <item quantity="one">Выбрана %d задача</item>
+        <item quantity="few">Выбрано %d задачи</item>
+        <item quantity="many">Выбрано %d задач</item>
+        <item quantity="other">Выбрано %d задач</item>
+    </plurals>
+    <string name="title_search_bar">Поиск</string>
+</resources>
