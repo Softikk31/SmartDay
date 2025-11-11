@@ -47,7 +47,7 @@ fun CustomNavBar(
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                indicatorColor = MaterialTheme.colorScheme.primary.copy(0.3f)
+                indicatorColor = MaterialTheme.colorScheme.primary.copy(0.15f)
             )
         )
 
@@ -75,7 +75,7 @@ fun CustomNavBar(
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                indicatorColor = MaterialTheme.colorScheme.primary.copy(0.3f)
+                indicatorColor = MaterialTheme.colorScheme.primary.copy(0.15f)
             )
         )
 
@@ -103,7 +103,7 @@ fun CustomNavBar(
                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                indicatorColor = MaterialTheme.colorScheme.primary.copy(0.3f)
+                indicatorColor = MaterialTheme.colorScheme.primary.copy(0.15f)
             )
         )
     }
