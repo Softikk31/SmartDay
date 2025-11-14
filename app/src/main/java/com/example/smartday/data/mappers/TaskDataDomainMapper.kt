@@ -8,6 +8,7 @@ fun TaskDomain.toData() = TaskData(
     title = title,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
+    priority = priority,
     date = date,
     notification = notification
 )
@@ -17,6 +18,7 @@ fun TaskData.toDomain() = TaskDomain(
     title = title,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
+    priority = priority,
     date = date,
     notification = notification
 )

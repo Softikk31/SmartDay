@@ -8,6 +8,7 @@ fun TaskData.toDB() = TaskDB(
     title = title,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
+    priority = priority,
     date = date,
     notification = notification
 )
@@ -18,6 +19,7 @@ fun TaskDB.toData() = TaskData(
     title = title,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
+    priority = priority,
     date = date,
     notification = notification
 )

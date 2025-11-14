@@ -8,21 +8,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,7 +32,7 @@ import com.example.smartday.presentation.main.MainViewModel
 import com.example.smartday.presentation.main.TaskViewModel
 import com.example.smartday.presentation.ui.components.CustomFloatActionButton
 import com.example.smartday.presentation.ui.components.CustomScaffoldTopBar
-import com.example.smartday.presentation.ui.components.CustomTopBar
+import com.example.smartday.presentation.ui.components.bars.CustomTopBar
 import com.example.smartday.presentation.ui.components.ItemTasks
 import com.example.smartday.presentation.ui.navigation.Screen
 

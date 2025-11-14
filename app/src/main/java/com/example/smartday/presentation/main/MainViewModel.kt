@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartday.R
 import com.example.smartday.domain.usecase.GetCompletedTasksUseCase
-import com.example.smartday.domain.usecase.GetFoundTasksUseCase
 import com.example.smartday.domain.usecase.GetTasksByDateUseCase
 import com.example.smartday.domain.usecase.GetTasksWithoutDateUseCase
 import com.example.smartday.domain.usecase.OverdueTaskUseCase
@@ -84,20 +83,21 @@ class MainViewModel(
 
                     val sortedListTaskDate = tasksListDate
                         .groupBy { it.date!! }
-                        .toSortedMap()
                         .mapValues { (_, tasks) ->
                             tasks.sortedWith(
-                                compareBy<TaskUI> { it.notification == null }
+                                compareBy<TaskUI> { it.priority }
+                                    .thenBy { it.date }
                                     .thenBy { it.notification }
+                                    .thenBy { it.notification == null }
                             )
                         }
 
                     val sortedListTaskOverdue = tasksListOverdue
                         .sortedWith(
-                            compareBy<TaskUI> { it.date == null }
+                            compareBy<TaskUI> { it.priority }
                                 .thenBy { it.date }
-                                .thenBy { it.notification == null }
                                 .thenBy { it.notification }
+                                .thenBy { it.notification == null }
                         )
 
                     _dateTasks.value = sortedListTaskDate
@@ -109,7 +109,13 @@ class MainViewModel(
             getTasksWithoutDateUseCase()
                 .map { taskListDomain -> taskListDomain.map { it.toUI() } }
                 .distinctUntilChanged()
-                .collect { _withoutDateTasks.value = it }
+                .collect { taskListUI ->
+                    val sortedListTaskPriority = taskListUI
+                        .sortedWith(
+                            compareBy { it.priority }
+                        )
+                    _withoutDateTasks.value = sortedListTaskPriority
+                }
         }
 
         viewModelScope.launch {
@@ -121,8 +127,8 @@ class MainViewModel(
                         .sortedWith(
                             compareBy<TaskUI> { it.date == null }
                                 .thenBy { it.date }
-                                .thenBy { it.notification == null }
                                 .thenBy { it.notification }
+                                .thenBy { it.notification == null }
                         )
 
                     _completedTasks.value = sortedListTaskCompleted

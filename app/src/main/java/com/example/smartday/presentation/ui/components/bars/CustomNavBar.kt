@@ -1,4 +1,4 @@
-package com.example.smartday.presentation.ui.components
+package com.example.smartday.presentation.ui.components.bars
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.*

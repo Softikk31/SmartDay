@@ -1,4 +1,4 @@
-package com.example.smartday.presentation.ui.components
+package com.example.smartday.presentation.ui.components.dialogs
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -16,7 +16,9 @@ import com.example.smartday.R
 import com.example.smartday.presentation.main.DateTimeDialogMode
 import com.example.smartday.presentation.main.TaskViewModel
 import com.example.smartday.presentation.models.states.TaskState
-import com.example.smartday.presentation.ui.screens.ButtonCreateTask
+import com.example.smartday.presentation.ui.components.Day
+import com.example.smartday.presentation.ui.components.DaysOfWeekTitle
+import com.example.smartday.presentation.ui.screens.ButtonCustomiseTask
 import com.example.smartday.presentation.ui.theme.SmartDayTheme
 import com.example.smartday.presentation.utils.rememberFirstMostVisibleMonth
 import com.kizitonwose.calendar.compose.CalendarState
@@ -129,7 +131,7 @@ fun DateTimeDialog(state: TaskState, taskViewModel: TaskViewModel, locale: Local
                                 .padding(horizontal = 16.dp)
                                 .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(0.1f))
                         )
-                        ButtonCreateTask(
+                        ButtonCustomiseTask(
                             icon = ImageVector.vectorResource(R.drawable.ic_bell),
                             title = stringResource(R.string.time),
                             value = state.time?.toString() ?: stringResource(R.string.no_time)
@@ -192,6 +194,7 @@ fun DateTimeDialog(state: TaskState, taskViewModel: TaskViewModel, locale: Local
                             colors = TimePickerDefaults.colors(
                                 timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary.copy(0.6f),
                                 timeSelectorSelectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                clockDialSelectedContentColor = MaterialTheme.colorScheme.surface,
                                 clockDialColor = MaterialTheme.colorScheme.surface
                             )
                         )

@@ -29,12 +29,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import com.example.smartday.R
-import com.example.smartday.presentation.ui.components.CustomScaffoldTopBar
-import com.example.smartday.presentation.ui.components.CustomTopBar
-import com.example.smartday.presentation.ui.components.CustomFloatActionButton
-import com.example.smartday.presentation.ui.components.DateTimeDialog
-import com.example.smartday.presentation.utils.toDisplayString
 import com.example.smartday.presentation.main.TaskViewModel
+import com.example.smartday.presentation.ui.components.CustomFloatActionButton
+import com.example.smartday.presentation.ui.components.CustomScaffoldTopBar
+import com.example.smartday.presentation.ui.components.bars.CustomTopBar
+import com.example.smartday.presentation.ui.components.dialogs.DateTimeDialog
+import com.example.smartday.presentation.utils.toDisplayString
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -151,7 +151,7 @@ fun TaskScreen(
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(0.1f))
                     )
-                    ButtonCreateTask(
+                    ButtonCustomiseTask(
                         icon = ImageVector.vectorResource(R.drawable.ic_calendar),
                         title = stringResource(R.string.task_create_button_title_date),
                         value = state.date?.toDisplayString(locale, LocalContext.current)
@@ -165,7 +165,7 @@ fun TaskScreen(
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(0.1f))
                     )
-                    ButtonCreateTask(
+                    ButtonCustomiseTask(
                         icon = ImageVector.vectorResource(R.drawable.ic_bell),
                         title = stringResource(R.string.task_create_button_title_reminder_time),
                         value = state.time?.toString() ?: stringResource(R.string.no_time)
@@ -182,6 +182,17 @@ fun TaskScreen(
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(0.1f))
                     )
+                    ButtonCustomiseTask(
+                        icon = ImageVector.vectorResource(R.drawable.ic_bell),
+                        title = stringResource(R.string.task_create_button_title_reminder_time),
+                        value = state.time?.toString() ?: stringResource(R.string.no_time)
+                    ) {
+                        if (state.date != null) {
+                            taskViewModel.timeSelection()
+                        } else {
+                            taskViewModel.dateSelection()
+                        }
+                    }
                 }
             }
         }
@@ -190,7 +201,7 @@ fun TaskScreen(
 
 
 @Composable
-fun ButtonCreateTask(
+fun ButtonCustomiseTask(
     modifier: Modifier = Modifier, icon: ImageVector, title: String, value: String, onClick: () -> Unit = {}
 ) {
     Box(

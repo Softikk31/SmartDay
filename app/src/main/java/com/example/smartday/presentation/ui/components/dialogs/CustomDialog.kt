@@ -1,4 +1,4 @@
-package com.example.smartday.presentation.ui.components
+package com.example.smartday.presentation.ui.components.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

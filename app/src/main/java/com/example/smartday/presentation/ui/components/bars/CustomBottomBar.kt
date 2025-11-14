@@ -1,9 +1,7 @@
-package com.example.smartday.presentation.ui.components
+package com.example.smartday.presentation.ui.components.bars
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar

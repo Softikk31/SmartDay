@@ -22,9 +22,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.smartday.R
 import com.example.smartday.presentation.main.MainViewModel
 import com.example.smartday.presentation.main.TaskViewModel
-import com.example.smartday.presentation.ui.components.CustomBottomBar
-import com.example.smartday.presentation.ui.components.CustomButtonBottomBar
-import com.example.smartday.presentation.ui.components.CustomNavBar
+import com.example.smartday.presentation.ui.components.bars.CustomBottomBar
+import com.example.smartday.presentation.ui.components.bars.CustomButtonBottomBar
+import com.example.smartday.presentation.ui.components.bars.CustomNavBar
 import com.example.smartday.presentation.ui.screens.*
 import org.koin.androidx.compose.koinViewModel
 

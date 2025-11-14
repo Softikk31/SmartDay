@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.smartday.R
 import com.example.smartday.presentation.ui.components.CustomScaffoldTopBar
-import com.example.smartday.presentation.ui.components.CustomTopBar
+import com.example.smartday.presentation.ui.components.bars.CustomTopBar
 
 @Composable
 fun SettingsScreen() {

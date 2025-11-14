@@ -28,7 +28,7 @@ import com.example.smartday.R
 import com.example.smartday.presentation.main.TaskFoundForm
 import com.example.smartday.presentation.main.TaskViewModel
 import com.example.smartday.presentation.ui.components.CustomScaffoldTopBar
-import com.example.smartday.presentation.ui.components.CustomTopBar
+import com.example.smartday.presentation.ui.components.bars.CustomTopBar
 import com.example.smartday.presentation.ui.components.TaskCard
 import com.example.smartday.presentation.ui.navigation.Screen
 import kotlinx.coroutines.delay

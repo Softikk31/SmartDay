@@ -24,6 +24,7 @@ import com.example.smartday.R
 import com.example.smartday.presentation.main.MainViewModel
 import com.example.smartday.presentation.main.TaskViewModel
 import com.example.smartday.presentation.ui.components.*
+import com.example.smartday.presentation.ui.components.bars.CustomTopBar
 import com.example.smartday.presentation.utils.rememberFirstMostVisibleMonth
 import com.example.smartday.presentation.utils.rememberFirstVisibleWeek
 import com.kizitonwose.calendar.compose.CalendarState

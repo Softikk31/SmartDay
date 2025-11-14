@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.smartday.data.sources.local.converters.ConvertersDateTime
+import com.example.smartday.data.sources.local.converters.ConvertersPriority
 import com.example.smartday.data.sources.local.entities.TaskDB
 
 @Database(
     entities = [TaskDB::class], version = 1, exportSchema = true
 )
-@TypeConverters(ConvertersDateTime::class)
+@TypeConverters(ConvertersDateTime::class, ConvertersPriority::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
