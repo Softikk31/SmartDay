@@ -1,0 +1,5 @@
+package com.example.smartday.ui.models.enums
+
+enum class TaskFormDialogMode {
+    NON_DIALOG_MODE, DATE_DIALOG_MODE, TIME_DIALOG_MODE, PRIORITY_DIALOG_MODE, SELECT_REPETITION_DIALOG_MODE, SETUP_REPETITION_DIALOG_MODE
+}

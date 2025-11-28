@@ -1,0 +1,16 @@
+!.gitignore
+
+.gradle/
+.kotlin/
+!gradle/libs.versions.toml
+!build.gradle.kts
+!settings.gradle.kts
+/kotlin-js-store/*
+
+local.properties
+gradle.properties
+
+.idea/
+*.iml
+
+build/

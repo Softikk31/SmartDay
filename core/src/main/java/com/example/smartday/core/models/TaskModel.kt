@@ -1,0 +1,23 @@
+package com.example.smartday.core.models
+
+import com.example.smartday.core.enums.TaskPriority
+import com.example.smartday.core.enums.TaskTypeRepetition
+import com.example.smartday.core.enums.TaskTypeRepetitionSystem
+import com.example.smartday.core.models.repetition.TaskRepetitionModel
+import java.time.LocalDate
+import java.time.LocalTime
+
+data class TaskModel(
+    val id: Long = 0,
+    val title: String,
+    val isCompleted: Boolean = false,
+    val isOverdue: Boolean = false,
+    val repetition: TaskRepetitionModel =
+        TaskRepetitionModel(
+            null,
+            TaskTypeRepetition.OnSystemTypeRepetition(TaskTypeRepetitionSystem.NULL)
+        ),
+    val priority: TaskPriority = TaskPriority.NULL,
+    val date: LocalDate? = null,
+    val notification: LocalTime? = null
+)

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="secondary_title_month">месяц</string>
+    <string name="title_settings">Настройки</string>
+    <string name="nav_home">Главная</string>
+    <string name="nav_tasks">Задачи</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="title_create_task">Новая задача</string>
+    <string name="title_tasks">Задачи</string>
+    <string name="no_tasks_found_text">Задач не найдено</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="after_tomorrow">Послезавтра</string>
+    <string name="task_category_completed">Выполненные</string>
+    <string name="task_category_no_date">Без даты</string>
+    <string name="task_category_overdue">Просрочено</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Отменить</string>
+    <string name="reminder_set_time">Указать время напоминания</string>
+    <string name="notification_time">Время напоминания</string>
+    <string name="task_title">Название</string>
+    <string name="task_create_button_title_date">Дата</string>
+    <string name="task_create_button_title_reminder_time">Время напоминания</string>
+    <string name="title_edit_task">Редактировать задачу</string>
+    <string name="time">Время</string>
+    <string name="delete">Удалить</string>
+    <plurals name="selected_task_title">
+        <item quantity="one">Выбрана %d задача</item>
+        <item quantity="few">Выбрано %d задачи</item>
+        <item quantity="many">Выбрано %d задач</item>
+        <item quantity="other">Выбрано %d задач</item>
+    </plurals>
+    <string name="title_search_bar">Поиск</string>
+    <string name="task_create_button_title_priority">Приоритет</string>
+    <string name="none">Нет</string>
+    <string name="low_priority">Низкий</string>
+    <string name="medium_priority">Средний</string>
+    <string name="high_priority">Высокий</string>
+    <string name="toast_warning_null_date_and_not_null_time">Время напоминания не может существовать без даты!</string>
+    <string name="toast_warning_empty_title">Название задачи не может быть пустым!</string>
+    <string name="toast_warning_null_date_and_not_null_repetition">Дата обязательна при выбранном типе повторения!</string>
+    <string name="select_days_of_week_repetition">Каждый:</string>
+    <string name="one_time_repetition">Один раз</string>
+    <string name="toast_warning_null_id">Задача не может существовать без ID!</string>
+    <string name="save">Сохранить</string>
+    <string name="task_create_button_title_repetition">Повторение</string>
+    <string name="repeat_never">Не повторять</string>
+
+    <string name="repeat_every_workday">Каждый будний день</string>
+
+    <string name="every">Кажд.</string>
+    <string name="day">День</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="year">Год</string>
+    <string name="custom_select_repetition">Пользовательское</string>
+    <string name="day_of_the_week">День недели</string>
+
+    <string name="repeat_every_day">Каждый день</string>
+    <string name="repeat_every_week_on">Каждую неделю по %s</string>
+    <string name="repeat_every_month_on">Каждый месяц %s числа</string>
+    <string name="repeat_every_year_on">Каждый год %s</string>
+
+    <plurals name="repeat_every_x_days_on">
+        <item quantity="one">Каждый %d день</item>
+        <item quantity="few">Каждые %d дня</item>
+        <item quantity="many">Каждые %d дней</item>
+        <item quantity="other">Каждые %d дней</item>
+    </plurals>
+
+    <plurals name="repeat_every_x_weeks_on">
+        <item quantity="one">Каждую %1$d неделю по %2$s</item>
+        <item quantity="few">Каждые %1$d недели по %2$s</item>
+        <item quantity="many">Каждые %1$d недель по %2$s</item>
+        <item quantity="other">Каждые %1$d недель по %2$s</item>
+    </plurals>
+
+    <plurals name="repeat_every_x_months_on">
+        <item quantity="one">Каждый %d месяц %s числа</item>
+        <item quantity="few">Каждые %d месяца %s числа</item>
+        <item quantity="many">Каждые %d месяцев %s числа</item>
+        <item quantity="other">Каждые %d месяцев %s числа</item>
+    </plurals>
+
+    <plurals name="repeat_every_x_years_on">
+        <item quantity="one">Каждый %d год %s</item>
+        <item quantity="few">Каждые %d года %s</item>
+        <item quantity="many">Каждые %d лет %s</item>
+        <item quantity="other">Каждые %d лет %s</item>
+    </plurals>
+    <string name="reminder_title_notification">Напоминание!</string>
+    <string name="reminder_text_notification">Не забудь выполнить задачу: «%s»</string>
+    <string name="overdue_title_notification">Задача просрочена!</string>
+    <string name="overdue_text_notification">«%s» не была выполнена вовремя</string>
+</resources>
