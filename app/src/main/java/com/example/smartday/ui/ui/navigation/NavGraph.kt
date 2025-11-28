@@ -27,6 +27,8 @@ import com.example.smartday.ui.ui.components.bars.CustomBottomBar
 import com.example.smartday.ui.ui.components.bars.CustomButtonBottomBar
 import com.example.smartday.ui.ui.components.bars.CustomNavBar
 import com.example.smartday.ui.ui.screens.*
+import com.example.smartday.ui.ui.screens.settings.SettingsScreen
+import com.example.smartday.ui.ui.screens.settings.ThemeScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -135,7 +137,13 @@ fun NavGraph(navController: NavHostController, viewModel: MainViewModel) {
                 enterTransition = null,
                 exitTransition = null
             ) {
-                SettingsScreen()
+                SettingsScreen(navController = navController)
+            }
+            composable<Screen.Theme>(
+                enterTransition = null,
+                exitTransition = null
+            ) {
+                ThemeScreen(navController = navController)
             }
         }
     }

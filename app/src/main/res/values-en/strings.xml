@@ -83,5 +83,10 @@
     <string name="overdue_title_notification">The task is overdue!</string>
     <string name="overdue_text_notification">\"%s\" was not completed on time</string>
 
-
+    <string name="theme_title">Theme</string>
+    <string name="system_theme">System</string>
+    <string name="system_theme_description">Sync with device system theme</string>
+    <string name="switch_to_dark_theme">Switch to dark theme</string>
+    <string name="switch_to_light_theme">Switch to light theme</string>
+    <string name="primary_color">Primary color</string>
 </resources>

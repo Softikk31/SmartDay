@@ -92,4 +92,11 @@
     <string name="reminder_text_notification">Не забудь выполнить задачу: «%s»</string>
     <string name="overdue_title_notification">Задача просрочена!</string>
     <string name="overdue_text_notification">«%s» не была выполнена вовремя</string>
+
+    <string name="theme_title">Тема</string>
+    <string name="system_theme">Системная</string>
+    <string name="system_theme_description">Синхронизация с системной темой устройства</string>
+    <string name="switch_to_dark_theme">Переключить на ночную тему</string>
+    <string name="switch_to_light_theme">Переключить на светлую тему</string>
+    <string name="primary_color">Основной цвет</string>
 </resources>

@@ -13,4 +13,6 @@ sealed class Screen {
     object Search : Screen()
     @Serializable
     object Settings : Screen()
+    @Serializable
+    object Theme : Screen()
 }
