@@ -60,18 +60,22 @@
     <string name="repeat_every_year_on">Every year on %s</string>
 
     <plurals name="repeat_every_x_days_on">
+        <item quantity="one">Every %d day</item>
         <item quantity="other">Every %d days</item>
     </plurals>
 
     <plurals name="repeat_every_x_weeks_on">
+        <item quantity="one">Every %1$d week on %2$s</item>
         <item quantity="other">Every %1$d weeks on %2$s</item>
     </plurals>
 
     <plurals name="repeat_every_x_months_on">
+        <item quantity="one">Every %d month on day %s</item>
         <item quantity="other">Every %d months on day %s</item>
     </plurals>
 
     <plurals name="repeat_every_x_years_on">
+        <item quantity="one">Every %d year on %s</item>
         <item quantity="other">Every %d years on %s</item>
     </plurals>
     <string name="reminder_title_notification">Reminder!</string>
