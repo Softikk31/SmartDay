@@ -272,7 +272,7 @@ enum class NotificationType {
 }
 
 fun LocalDate.nextWorkdayDate(): LocalDate {
-    var date = this
+    var date = this.plusDays(1)
     val weekend = listOf(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
 
     while (date.dayOfWeek in weekend) {
@@ -289,7 +289,7 @@ fun LocalDate.nextValueDaysWeekDate(
 
     when (selectedDays) {
         is DaysOfWeekRepetition -> {
-            var date = this
+            var date = this.plusDays(1)
             var selectedDaysFilter =
                 selectedDays.value.sortedBy { it.value }.filter { it.value > this.dayOfWeek.value }
 
