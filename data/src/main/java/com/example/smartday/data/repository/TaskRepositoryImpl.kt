@@ -1,6 +1,6 @@
 package com.example.smartday.data.repository
 
-import com.example.smartday.core.models.TaskModel
+import com.example.smartday.core.models.task.TaskModel
 import com.example.smartday.data.sources.TaskLocalSource
 import com.example.smartday.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ class TaskRepositoryImpl(private val localDataSource: TaskLocalSource) : TaskRep
     override fun getTasksWithoutDate(): Flow<List<TaskModel>> =
         localDataSource.getTasksWithoutDate()
 
-    override fun getTask(taskId: Long): TaskModel =
+    override suspend fun getTask(taskId: Long): TaskModel =
         localDataSource.getTask(taskId = taskId)
 
     override suspend fun completingTask(taskId: Long) =

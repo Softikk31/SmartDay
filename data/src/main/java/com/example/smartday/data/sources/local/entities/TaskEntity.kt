@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.smartday.core.enums.TaskPriority
 import com.example.smartday.core.enums.TaskTypeRepetition
 import com.example.smartday.core.enums.TaskTypeRepetitionSystem
-import com.example.smartday.core.models.repetition.TaskRepetitionModel
+import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
 import java.time.LocalDate
 import java.time.LocalTime
 

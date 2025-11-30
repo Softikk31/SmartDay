@@ -1,19 +1,39 @@
 package com.example.smartday.di
 
-import com.example.smartday.domain.usecase.CompletingTaskUseCase
-import com.example.smartday.domain.usecase.CreateTaskUseCase
-import com.example.smartday.domain.usecase.DeleteTaskUseCase
-import com.example.smartday.domain.usecase.GetAllTasksUseCase
-import com.example.smartday.domain.usecase.GetCompletedTasksUseCase
-import com.example.smartday.domain.usecase.GetFoundTasksUseCase
-import com.example.smartday.domain.usecase.GetTaskUseCase
-import com.example.smartday.domain.usecase.GetTasksByDateUseCase
-import com.example.smartday.domain.usecase.GetTasksWithoutDateUseCase
-import com.example.smartday.domain.usecase.OverdueTaskUseCase
-import com.example.smartday.domain.usecase.UpdateTaskUseCase
+import com.example.smartday.domain.usecase.task.CompletingTaskUseCase
+import com.example.smartday.domain.usecase.task.CreateTaskUseCase
+import com.example.smartday.domain.usecase.task.DeleteTaskUseCase
+import com.example.smartday.domain.usecase.task.GetAllTasksUseCase
+import com.example.smartday.domain.usecase.task.GetCompletedTasksUseCase
+import com.example.smartday.domain.usecase.task.GetFoundTasksUseCase
+import com.example.smartday.domain.usecase.task.GetTaskUseCase
+import com.example.smartday.domain.usecase.task.GetTasksByDateUseCase
+import com.example.smartday.domain.usecase.task.GetTasksWithoutDateUseCase
+import com.example.smartday.domain.usecase.task.OverdueTaskUseCase
+import com.example.smartday.domain.usecase.task.UpdateTaskUseCase
+import com.example.smartday.domain.usecase.theme.GetThemeUseCase
+import com.example.smartday.domain.usecase.theme.UpdatePrimaryUseCase
+import com.example.smartday.domain.usecase.theme.UpdateSystemUseCase
+import com.example.smartday.domain.usecase.theme.UpdateThemeUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
+    factory<UpdateThemeUseCase> {
+        UpdateThemeUseCase(get())
+    }
+
+    factory<UpdatePrimaryUseCase> {
+        UpdatePrimaryUseCase(get())
+    }
+
+    factory<UpdateSystemUseCase> {
+        UpdateSystemUseCase(get())
+    }
+
+    factory<GetThemeUseCase> {
+        GetThemeUseCase(get())
+    }
+
     factory<GetFoundTasksUseCase> {
         GetFoundTasksUseCase(get())
     }

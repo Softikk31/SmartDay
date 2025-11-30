@@ -1,6 +1,6 @@
 package com.example.smartday.data.mappers
 
-import com.example.smartday.core.models.TaskModel
+import com.example.smartday.core.models.task.TaskModel
 import com.example.smartday.data.sources.local.entities.TaskEntity
 
 fun TaskModel.toEntity() = TaskEntity(

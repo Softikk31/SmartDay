@@ -20,8 +20,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.smartday.ui.main.view_models.MainViewModel
+import com.example.smartday.ui.main.view_models.ThemeViewModel
 import com.example.smartday.ui.ui.navigation.NavGraph
 import com.example.smartday.ui.ui.theme.SmartDayTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {

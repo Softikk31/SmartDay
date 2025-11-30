@@ -3,6 +3,7 @@ package com.example.smartday.ui.ui.screens.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +20,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults.colors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +35,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import com.example.smartday.R
+import com.example.smartday.core.enums.ThemePrimaryColors
+import com.example.smartday.ui.main.view_models.ThemeViewModel
 import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.theme.Blue
@@ -47,21 +48,14 @@ import com.example.smartday.ui.ui.theme.Yellow
 
 @Composable
 fun ThemeScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    themeViewModel: ThemeViewModel
 ) {
-    var checkedPrimaryColor by rememberSaveable {
-        mutableStateOf(ThemePrimaryColors.YELLOW)
-    }
-
-    var checkedSystemTheme by rememberSaveable {
-        mutableStateOf(true)
-    }
-
-    var themeMode by rememberSaveable {
-        mutableStateOf(ThemeMode.LIGHT)
-    }
+    val theme by themeViewModel.theme.collectAsState()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    val systemTheme = isSystemInDarkTheme()
 
     CustomScaffoldTopBar(
         topBar = {
@@ -108,11 +102,16 @@ fun ThemeScreen(
                 }
 
                 Switch(
-                    checked = checkedSystemTheme,
-                    onCheckedChange = {
-                        checkedSystemTheme = !checkedSystemTheme
+                    checked = theme.systemTheme,
+                    onCheckedChange = { enabled ->
+                        themeViewModel.editSystem(enabled)
+
+                        if (enabled) {
+                            themeViewModel.editTheme(systemTheme)
+                        }
                     },
                     colors = colors(
+                        checkedThumbColor = MaterialTheme.colorScheme.surface,
                         checkedTrackColor = MaterialTheme.colorScheme.primary
                     )
                 )
@@ -122,8 +121,8 @@ fun ThemeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        themeMode =
-                            if (themeMode == ThemeMode.LIGHT) ThemeMode.DARK else ThemeMode.LIGHT
+                        themeViewModel.editSystem(false)
+                        themeViewModel.editTheme(!theme.isDarkMode)
                     }
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -131,13 +130,30 @@ fun ThemeScreen(
             ) {
                 Icon(
                     modifier = Modifier.size(25.dp),
-                    imageVector = ImageVector.vectorResource(if (themeMode == ThemeMode.LIGHT) R.drawable.ic_moon else R.drawable.ic_sun),
+                    imageVector = ImageVector.vectorResource(
+                        when {
+                            theme.systemTheme -> if (systemTheme) R.drawable.ic_sun else R.drawable.ic_moon
+                            theme.isDarkMode -> R.drawable.ic_sun
+                            else -> R.drawable.ic_moon
+                        }
+                    ),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
-                    text = stringResource(if (themeMode == ThemeMode.LIGHT) R.string.switch_to_dark_theme else R.string.switch_to_light_theme),
+                    text = stringResource(
+                        when {
+                            theme.systemTheme -> if (systemTheme) {
+                                R.string.switch_to_light_theme
+                            } else {
+                                R.string.switch_to_dark_theme
+                            }
+
+                            theme.isDarkMode -> R.string.switch_to_light_theme
+                            else -> R.string.switch_to_dark_theme
+                        }
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -165,65 +181,51 @@ fun ThemeScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     CircleSelectPrimary(
-                        checked = checkedPrimaryColor == ThemePrimaryColors.YELLOW,
+                        checked = theme.primaryColor == ThemePrimaryColors.YELLOW,
                         color = Yellow,
                         onClick = {
-                            checkedPrimaryColor = ThemePrimaryColors.YELLOW
+                            themeViewModel.editPrimary(ThemePrimaryColors.YELLOW)
                         }
                     )
                     CircleSelectPrimary(
-                        checked = checkedPrimaryColor == ThemePrimaryColors.RED,
+                        checked = theme.primaryColor == ThemePrimaryColors.RED,
                         color = Red,
                         onClick = {
-                            checkedPrimaryColor = ThemePrimaryColors.RED
+                            themeViewModel.editPrimary(ThemePrimaryColors.RED)
                         }
                     )
                     CircleSelectPrimary(
-                        checked = checkedPrimaryColor == ThemePrimaryColors.BLUE,
+                        checked = theme.primaryColor == ThemePrimaryColors.BLUE,
                         color = Blue,
                         onClick = {
-                            checkedPrimaryColor = ThemePrimaryColors.BLUE
+                            themeViewModel.editPrimary(ThemePrimaryColors.BLUE)
                         }
                     )
                     CircleSelectPrimary(
-                        checked = checkedPrimaryColor == ThemePrimaryColors.ORANGE,
+                        checked = theme.primaryColor == ThemePrimaryColors.ORANGE,
                         color = Orange,
                         onClick = {
-                            checkedPrimaryColor = ThemePrimaryColors.ORANGE
+                            themeViewModel.editPrimary(ThemePrimaryColors.ORANGE)
                         }
                     )
                     CircleSelectPrimary(
-                        checked = checkedPrimaryColor == ThemePrimaryColors.GREEN,
+                        checked = theme.primaryColor == ThemePrimaryColors.GREEN,
                         color = Green,
                         onClick = {
-                            checkedPrimaryColor = ThemePrimaryColors.GREEN
+                            themeViewModel.editPrimary(ThemePrimaryColors.GREEN)
                         }
                     )
                     CircleSelectPrimary(
-                        checked = checkedPrimaryColor == ThemePrimaryColors.PURPLE,
+                        checked = theme.primaryColor == ThemePrimaryColors.PURPLE,
                         color = Purple,
                         onClick = {
-                            checkedPrimaryColor = ThemePrimaryColors.PURPLE
+                            themeViewModel.editPrimary(ThemePrimaryColors.PURPLE)
                         }
                     )
                 }
             }
         }
     }
-}
-
-enum class ThemePrimaryColors {
-    YELLOW,
-    RED,
-    BLUE,
-    ORANGE,
-    GREEN,
-    PURPLE
-}
-
-enum class ThemeMode {
-    LIGHT,
-    DARK
 }
 
 @Composable

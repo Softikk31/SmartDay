@@ -1,6 +1,6 @@
 package com.example.smartday.data.sources.local
 
-import com.example.smartday.core.models.TaskModel
+import com.example.smartday.core.models.task.TaskModel
 import com.example.smartday.data.mappers.toEntity
 import com.example.smartday.data.mappers.toModel
 import com.example.smartday.data.sources.TaskLocalSource
@@ -26,7 +26,7 @@ class TaskLocalSourceImpl(
     override fun getTasksWithoutDate(): Flow<List<TaskModel>> =
         taskDao.getTasksWithoutDate().map { tasksList -> tasksList.map { it.toModel() } }
 
-    override fun getTask(taskId: Long): TaskModel =
+    override suspend fun getTask(taskId: Long): TaskModel =
         taskDao.getTask(taskId = taskId).toModel()
 
     override suspend fun completingTask(taskId: Long) =

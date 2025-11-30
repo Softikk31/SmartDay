@@ -1,7 +1,7 @@
 package com.example.smartday.ui.models.states
 
 import com.example.smartday.core.enums.TaskPriority
-import com.example.smartday.core.models.repetition.TaskRepetitionModel
+import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
 import java.time.LocalDate
 import java.time.LocalTime
 

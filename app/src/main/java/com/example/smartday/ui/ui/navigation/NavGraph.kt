@@ -23,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.smartday.R
 import com.example.smartday.ui.main.view_models.MainViewModel
 import com.example.smartday.ui.main.view_models.TaskViewModel
+import com.example.smartday.ui.main.view_models.ThemeViewModel
 import com.example.smartday.ui.ui.components.bars.CustomBottomBar
 import com.example.smartday.ui.ui.components.bars.CustomButtonBottomBar
 import com.example.smartday.ui.ui.components.bars.CustomNavBar
@@ -34,6 +35,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun NavGraph(navController: NavHostController, viewModel: MainViewModel) {
     val taskViewModel: TaskViewModel = koinViewModel()
+    val themeViewModel: ThemeViewModel = koinViewModel()
+
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
@@ -143,7 +146,7 @@ fun NavGraph(navController: NavHostController, viewModel: MainViewModel) {
                 enterTransition = null,
                 exitTransition = null
             ) {
-                ThemeScreen(navController = navController)
+                ThemeScreen(navController = navController, themeViewModel = themeViewModel)
             }
         }
     }

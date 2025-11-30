@@ -25,7 +25,7 @@ interface TaskDao {
     fun getTasksWithoutDate(): Flow<List<TaskEntity>>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
-    fun getTask(taskId: Long): TaskEntity
+    suspend fun getTask(taskId: Long): TaskEntity
 
     @Query("UPDATE tasks SET is_completed = 1 WHERE id == :taskId")
     suspend fun completingTask(taskId: Long)

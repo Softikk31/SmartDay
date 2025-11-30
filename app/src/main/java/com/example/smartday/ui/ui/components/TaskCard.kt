@@ -39,8 +39,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.smartday.R
 import com.example.smartday.core.enums.TaskPriority
-import com.example.smartday.core.models.TaskModel
-import com.example.smartday.core.models.repetition.TaskRepetitionModel
+import com.example.smartday.core.models.task.TaskModel
+import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
 import com.example.smartday.ui.main.view_models.TaskViewModel
 import com.example.smartday.ui.ui.theme.Blue
 import com.example.smartday.ui.ui.theme.Red

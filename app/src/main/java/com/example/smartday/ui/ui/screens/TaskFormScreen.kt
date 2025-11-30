@@ -51,8 +51,8 @@ import com.example.smartday.core.enums.TaskPriority
 import com.example.smartday.core.enums.TaskTypeRepetition
 import com.example.smartday.core.enums.TaskTypeRepetitionCustom
 import com.example.smartday.core.enums.TaskTypeRepetitionSystem
-import com.example.smartday.core.models.repetition.TaskRepetitionModel
-import com.example.smartday.core.models.repetition.values.DaysOfWeekRepetition
+import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
+import com.example.smartday.core.models.task.repetition.values.DaysOfWeekRepetition
 import com.example.smartday.ui.main.view_models.TaskViewModel
 import com.example.smartday.ui.ui.components.CustomFloatActionButton
 import com.example.smartday.ui.ui.components.CustomScaffoldTopBar

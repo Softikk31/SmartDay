@@ -1,6 +1,6 @@
 package com.example.smartday.ui.models.states
 
-import com.example.smartday.core.models.TaskModel
+import com.example.smartday.core.models.task.TaskModel
 import java.time.LocalDate
 
 sealed class TaskListItem {
