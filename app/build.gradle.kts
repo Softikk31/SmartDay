@@ -13,11 +13,11 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.smartday"
+        applicationId = "dev.smartday.app"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "1.2-alpha"
+        versionName = "1.3-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -140,7 +140,7 @@ fun NavGraph(navController: NavHostController, viewModel: MainViewModel) {
                 enterTransition = null,
                 exitTransition = null
             ) {
-                SettingsScreen(navController = navController)
+                SettingsScreen(navController = navController, themeViewModel = themeViewModel)
             }
             composable<Screen.Theme>(
                 enterTransition = null,

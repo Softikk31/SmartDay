@@ -12,6 +12,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -21,14 +23,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.smartday.R
+import com.example.smartday.ui.main.view_models.ThemeViewModel
 import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.navigation.Screen
 
 @Composable
 fun SettingsScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    themeViewModel: ThemeViewModel
 ) {
+    val theme by themeViewModel.theme.collectAsState()
+
     CustomScaffoldTopBar(
         topBar = {
             CustomTopBar(
@@ -65,12 +71,26 @@ fun SettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        "Тема",
+                        text = stringResource(R.string.theme_title),
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        "Системная",
+                        text = stringResource(
+                            when {
+                                theme.systemTheme -> {
+                                    R.string.system_theme
+                                }
+
+                                else -> {
+                                    if (theme.isDarkMode) {
+                                        R.string.dark_theme
+                                    } else {
+                                        R.string.light_theme
+                                    }
+                                }
+                            }
+                        ),
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Normal),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
