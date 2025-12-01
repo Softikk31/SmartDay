@@ -14,6 +14,7 @@ import com.example.smartday.domain.usecase.task.CreateTaskUseCase
 import com.example.smartday.domain.usecase.task.DeleteTaskUseCase
 import com.example.smartday.domain.usecase.task.GetAllTasksUseCase
 import com.example.smartday.domain.usecase.task.GetFoundTasksUseCase
+import com.example.smartday.domain.usecase.task.GetTaskUseCase
 import com.example.smartday.domain.usecase.task.UpdateTaskUseCase
 import com.example.smartday.ui.main.scheduler.cancelTaskAlarm
 import com.example.smartday.ui.models.enums.TaskFormDialogMode
@@ -39,6 +40,7 @@ class TaskViewModel(
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val completingTaskUseCase: CompletingTaskUseCase,
     private val getAllTasksUseCase: GetAllTasksUseCase,
+    private val getTaskUseCase: GetTaskUseCase,
     context: Context
 ) : ViewModel() {
 
@@ -85,6 +87,8 @@ class TaskViewModel(
                 }
         }
     }
+
+
 
     fun onSelectRepetition(repetition: TaskRepetitionModel) {
         _stateTaskForm.update { it.copy(repetition = repetition) }
@@ -328,8 +332,11 @@ class TaskViewModel(
         }
     }
 
-    fun completingTask(taskId: Long) {
+    fun completingTask(taskId: Long, context: Context) {
         viewModelScope.launch {
+            if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
+                cancelTaskAlarm(context, taskId)
+            }
             completingTaskUseCase(taskId = taskId)
         }
     }

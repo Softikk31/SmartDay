@@ -6,8 +6,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.example.smartday.R
 import com.example.smartday.core.enums.TaskTypeRepetition
@@ -31,6 +29,7 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.TemporalAdjusters
 
 const val ONE_HOUR_MS = 60 * 60 * 1000L
 
@@ -86,7 +85,13 @@ class TaskAlarmReceiver : BroadcastReceiver(), KoinComponent {
                 .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(taskId.hashCode(), notification)
+        CoroutineScope(Dispatchers.IO).launch {
+            if ((getTaskUseCase(taskId).repetition != TaskRepetitionModel()) and (notificationType == NotificationType.REMINDER.name)) {
+                manager.notify(taskId.hashCode(), notification)
+            } else if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
+                manager.notify(taskId.hashCode(), notification)
+            }
+        }
 
         if (taskRepetition != TaskRepetitionModel()) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -120,11 +125,7 @@ fun scheduleTaskAlarm(
     }
 
     val nextTrigger = if (task.repetition == TaskRepetitionModel()) {
-        if (initialDateTime > now) {
-            initialDateTime
-        } else {
-            calculateNextTriggerTime(initialDateTime, TaskRepetitionModel()) ?: return
-        }
+        initialDateTime
     } else {
         if (initialDateTime > now) {
             initialDateTime
@@ -143,7 +144,8 @@ fun scheduleTaskAlarm(
         updateTaskUseCase(
             task.copy(
                 date = nextTrigger.toLocalDate(),
-                notification = nextTrigger.toLocalTime()
+                notification = nextTrigger.toLocalTime(),
+                isCompleted = false
             )
         )
     }
@@ -167,25 +169,11 @@ fun scheduleTaskAlarm(
             reminderIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (alarmManager.canScheduleExactAlarms()) {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    reminderTime,
-                    reminderPendingIntent
-                )
-            } else {
-                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                context.startActivity(intent)
-            }
-        } else {
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                reminderTime,
-                reminderPendingIntent
-            )
-        }
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            reminderTime,
+            reminderPendingIntent
+        )
     }
 
     val overdueTime = System.currentTimeMillis() + delay
@@ -294,7 +282,10 @@ fun LocalDate.nextValueDaysWeekDate(
                 selectedDays.value.sortedBy { it.value }.filter { it.value > this.dayOfWeek.value }
 
             if (selectedDaysFilter.isEmpty()) {
-                date = date.plusWeeks(counter.toLong()).with(DayOfWeek.MONDAY)
+                date = if (counter > 1) date.plusWeeks(counter.toLong())
+                    .with(DayOfWeek.MONDAY) else date.with(
+                    TemporalAdjusters.next(DayOfWeek.MONDAY)
+                )
                 selectedDaysFilter =
                     selectedDays.value.sortedBy { it.value }
                         .filter { it.value >= date.dayOfWeek.value }

@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +63,7 @@ fun TaskCard(
 ) {
     val taskDeleteMode by taskViewModel.deleteMode.collectAsState()
 
-    var checked by remember { mutableStateOf(task.isCompleted) }
+    var checked by rememberSaveable(task.isCompleted) { mutableStateOf(task.isCompleted) }
     val coroutine = rememberCoroutineScope()
 
     val locale = remember {
@@ -71,6 +72,8 @@ fun TaskCard(
             else -> Locale.ENGLISH
         }
     }
+
+    val context = LocalContext.current
 
     Row(
         modifier = modifier
@@ -121,7 +124,7 @@ fun TaskCard(
                                 coroutine.launch {
                                     checked = true
                                     delay(200)
-                                    taskViewModel.completingTask(taskId = task.id)
+                                    taskViewModel.completingTask(taskId = task.id, context = context)
                                 }
                             }
                         }, colors = when (task.priority) {
