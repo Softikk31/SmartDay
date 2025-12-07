@@ -1,6 +1,8 @@
 package com.example.smartday.ui.main.scheduler
 
 import android.app.AlarmManager
+import android.app.Notification
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -75,23 +77,27 @@ class TaskAlarmReceiver : BroadcastReceiver(), KoinComponent {
             else -> return
         }
 
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         val notification =
             NotificationCompat.Builder(context, context.getString(R.string.channel_id))
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build()
 
-        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        CoroutineScope(Dispatchers.IO).launch {
-            if ((getTaskUseCase(taskId).repetition != TaskRepetitionModel()) and (notificationType == NotificationType.REMINDER.name)) {
-                manager.notify(taskId.hashCode(), notification)
-            } else if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
-                manager.notify(taskId.hashCode(), notification)
-            }
-        }
+        val channel = NotificationChannel(
+            context.getString(R.string.channel_id),
+            context.getString(R.string.channel_name),
+            NotificationManager.IMPORTANCE_HIGH
+        )
+
+        channel.setShowBadge(true)
+        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        manager.createNotificationChannel(channel)
+        manager.notify(taskId.hashCode(), notification)
 
         if (taskRepetition != TaskRepetitionModel()) {
             CoroutineScope(Dispatchers.IO).launch {

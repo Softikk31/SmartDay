@@ -102,4 +102,6 @@
     <string name="system_theme">Системная</string>
     <string name="light_theme">Светлая</string>
     <string name="dark_theme">Ночная</string>
+
+    <string name="notification_permission_denied">Разрешение на уведомления не выдано</string>
 </resources>

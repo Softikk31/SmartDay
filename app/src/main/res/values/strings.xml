@@ -97,4 +97,6 @@
     <string name="system_theme">System</string>
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
+
+    <string name="notification_permission_denied">Notification permission not granted</string>
 </resources>

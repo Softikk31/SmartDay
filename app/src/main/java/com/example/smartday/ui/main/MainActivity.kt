@@ -1,9 +1,13 @@
 package com.example.smartday.ui.main
 
 import android.Manifest
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -19,13 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.example.smartday.R
 import com.example.smartday.ui.main.view_models.MainViewModel
-import com.example.smartday.ui.main.view_models.ThemeViewModel
 import com.example.smartday.ui.ui.navigation.NavGraph
 import com.example.smartday.ui.ui.theme.SmartDayTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
@@ -52,22 +53,36 @@ class MainActivity : ComponentActivity() {
 fun RequestNotificationPermission() {
     val context = LocalContext.current
 
+    val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { granted ->
             if (!granted) {
-                Toast.makeText(context, "Please enable notifications in settings", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.notification_permission_denied),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     )
 
     LaunchedEffect(Unit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    notificationPermission
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
-                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                launcher.launch(notificationPermission)
             }
+        }
+
+        if (!alarmManager.canScheduleExactAlarms()) {
+            context.startActivity(Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
         }
     }
 }

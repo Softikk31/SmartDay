@@ -11,8 +11,6 @@ import com.example.smartday.data.sources.local.converters.task.ConvertersPriorit
 import com.example.smartday.data.sources.local.converters.theme.ConvertersPrimaryColor
 import com.example.smartday.data.sources.local.entities.TaskEntity
 import com.example.smartday.data.sources.local.entities.ThemeEntity
-import java.io.File
-import kotlin.io.path.Path
 
 @Database(
     entities = [TaskEntity::class, ThemeEntity::class], version = 1, exportSchema = true
