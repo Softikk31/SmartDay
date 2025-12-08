@@ -97,7 +97,16 @@ class TaskAlarmReceiver : BroadcastReceiver(), KoinComponent {
         channel.setShowBadge(true)
         channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         manager.createNotificationChannel(channel)
-        manager.notify(taskId.hashCode(), notification)
+        CoroutineScope(Dispatchers.IO).launch {
+            if ((getTaskUseCase(taskId).repetition != TaskRepetitionModel()) and (!getTaskUseCase(
+                    taskId
+                ).isCompleted)
+            ) {
+                manager.notify(taskId.hashCode(), notification)
+            } else if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
+                manager.notify(taskId.hashCode(), notification)
+            }
+        }
 
         if (taskRepetition != TaskRepetitionModel()) {
             CoroutineScope(Dispatchers.IO).launch {

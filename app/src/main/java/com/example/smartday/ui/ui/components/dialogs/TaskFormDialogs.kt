@@ -302,7 +302,7 @@ fun TaskFormDialog(state: TaskFormState, taskViewModel: TaskViewModel, locale: L
                         modifier = Modifier
                             .height(46.dp)
                             .padding(horizontal = 16.dp),
-                        title = stringResource(R.string.task_category_no_date)
+                        title = stringResource(R.string.task_category_no_time)
                     ) {
                         taskViewModel.onTimeSelected(null)
                         taskViewModel.nonDialogMode()
