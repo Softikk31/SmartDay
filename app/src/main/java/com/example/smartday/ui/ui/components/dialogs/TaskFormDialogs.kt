@@ -80,7 +80,7 @@ import com.example.smartday.ui.models.states.TaskFormState
 import com.example.smartday.ui.ui.components.Day
 import com.example.smartday.ui.ui.components.DaysOfWeekTitle
 import com.example.smartday.ui.ui.theme.Blue
-import com.example.smartday.ui.ui.theme.Red
+import com.example.smartday.ui.ui.theme.RedPrimary
 import com.example.smartday.ui.ui.theme.SmartDayTheme
 import com.example.smartday.ui.ui.theme.White
 import com.example.smartday.ui.ui.theme.Yellow
@@ -150,7 +150,7 @@ fun TaskFormDialog(state: TaskFormState, taskViewModel: TaskViewModel, locale: L
     val showTimeDialog = remember { mutableStateOf(true) }
 
     val imageVector =
-        if (showTimeDialog.value) ImageVector.vectorResource(R.drawable.ic_input_time_picker)
+        if (showTimeDialog.value) ImageVector.vectorResource(R.drawable.ic_keyboard)
         else ImageVector.vectorResource(R.drawable.ic_clock)
 
 
@@ -380,7 +380,7 @@ fun TaskFormDialog(state: TaskFormState, taskViewModel: TaskViewModel, locale: L
                             modifier = Modifier.padding(horizontal = 16.dp),
                             selected = selectedPriority.value == TaskPriority.HIGH,
                             icon = ImageVector.vectorResource(R.drawable.ic_flag),
-                            iconColor = Red,
+                            iconColor = RedPrimary,
                             title = stringResource(R.string.high_priority),
                             onClick = { selectedPriority.value = TaskPriority.HIGH })
                     }

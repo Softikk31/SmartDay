@@ -44,7 +44,7 @@ import com.example.smartday.core.models.task.TaskModel
 import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
 import com.example.smartday.ui.main.view_models.TaskViewModel
 import com.example.smartday.ui.ui.theme.Blue
-import com.example.smartday.ui.ui.theme.Red
+import com.example.smartday.ui.ui.theme.RedPrimary
 import com.example.smartday.ui.ui.theme.Yellow
 import com.example.smartday.ui.utils.toDisplayString
 import kotlinx.coroutines.delay
@@ -149,9 +149,9 @@ fun TaskCard(
                             )
 
                             TaskPriority.HIGH -> colors(
-                                checkmarkColor = Red,
-                                uncheckedColor = Red.copy(alpha = 0.8f),
-                                checkedColor = Red.copy(alpha = 0.2f)
+                                checkmarkColor = RedPrimary,
+                                uncheckedColor = RedPrimary.copy(alpha = 0.8f),
+                                checkedColor = RedPrimary.copy(alpha = 0.2f)
                             )
                         }
                     )

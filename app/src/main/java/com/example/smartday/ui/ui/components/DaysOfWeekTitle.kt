@@ -25,7 +25,7 @@ fun DaysOfWeekTitle(modifier: Modifier = Modifier, daysOfWeek: List<DayOfWeek>, 
                 style = MaterialTheme.typography.bodyMedium,
                 text = dayOfWeek.getDisplayName(TextStyle.SHORT_STANDALONE, locale).lowercase(),
                 color = if (daysOfWeek.indexOf(dayOfWeek) in arrayOf(5, 6))
-                    MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
+                    MaterialTheme.colorScheme.error
                 else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
         }

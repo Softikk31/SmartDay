@@ -1,13 +1,9 @@
 package com.example.smartday.ui.main
 
 import android.Manifest
-import android.app.AlarmManager
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -53,10 +49,6 @@ class MainActivity : ComponentActivity() {
 fun RequestNotificationPermission() {
     val context = LocalContext.current
 
-    val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
-
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { granted ->
@@ -74,15 +66,11 @@ fun RequestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     context,
-                    notificationPermission
+                    Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                launcher.launch(notificationPermission)
+                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
-        }
-
-        if (!alarmManager.canScheduleExactAlarms()) {
-            context.startActivity(Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
         }
     }
 }

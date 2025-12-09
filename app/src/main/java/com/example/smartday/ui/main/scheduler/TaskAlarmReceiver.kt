@@ -98,13 +98,15 @@ class TaskAlarmReceiver : BroadcastReceiver(), KoinComponent {
         channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         manager.createNotificationChannel(channel)
         CoroutineScope(Dispatchers.IO).launch {
-            if ((getTaskUseCase(taskId).repetition != TaskRepetitionModel()) and (!getTaskUseCase(
-                    taskId
-                ).isCompleted)
-            ) {
-                manager.notify(taskId.hashCode(), notification)
-            } else if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
-                manager.notify(taskId.hashCode(), notification)
+            if (!getTaskUseCase(taskId).isCompleted) {
+                if ((getTaskUseCase(taskId).repetition != TaskRepetitionModel()) and (!getTaskUseCase(
+                        taskId
+                    ).isCompleted)
+                ) {
+                    manager.notify(taskId.hashCode(), notification)
+                } else if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
+                    manager.notify(taskId.hashCode(), notification)
+                }
             }
         }
 

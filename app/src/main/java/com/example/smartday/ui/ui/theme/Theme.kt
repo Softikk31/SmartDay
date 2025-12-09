@@ -64,7 +64,7 @@ fun SmartDayTheme(
 
     val primary = when (theme.primaryColor) {
         ThemePrimaryColors.YELLOW -> Yellow
-        ThemePrimaryColors.RED -> Red
+        ThemePrimaryColors.RED -> RedPrimary
         ThemePrimaryColors.BLUE -> Blue
         ThemePrimaryColors.ORANGE -> Orange
         ThemePrimaryColors.GREEN -> Green

@@ -43,7 +43,7 @@ import com.example.smartday.ui.ui.theme.Blue
 import com.example.smartday.ui.ui.theme.Green
 import com.example.smartday.ui.ui.theme.Orange
 import com.example.smartday.ui.ui.theme.Purple
-import com.example.smartday.ui.ui.theme.Red
+import com.example.smartday.ui.ui.theme.RedPrimary
 import com.example.smartday.ui.ui.theme.Yellow
 
 @Composable
@@ -117,12 +117,18 @@ fun ThemeScreen(
                 )
             }
 
+            val currentSystemTheme = isSystemInDarkTheme()
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        themeViewModel.editSystem(false)
-                        themeViewModel.editTheme(!theme.isDarkMode)
+                        if (theme.systemTheme) {
+                            themeViewModel.editSystem(false)
+                            themeViewModel.editTheme(!currentSystemTheme)
+                        } else {
+                            themeViewModel.editTheme(!theme.isDarkMode)
+                        }
                     }
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -189,7 +195,7 @@ fun ThemeScreen(
                     )
                     CircleSelectPrimary(
                         checked = theme.primaryColor == ThemePrimaryColors.RED,
-                        color = Red,
+                        color = RedPrimary,
                         onClick = {
                             themeViewModel.editPrimary(ThemePrimaryColors.RED)
                         }

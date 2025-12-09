@@ -59,7 +59,7 @@ import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.components.dialogs.TaskFormDialog
 import com.example.smartday.ui.ui.theme.Blue
-import com.example.smartday.ui.ui.theme.Red
+import com.example.smartday.ui.ui.theme.RedPrimary
 import com.example.smartday.ui.ui.theme.Yellow
 import com.example.smartday.ui.utils.toDisplayString
 import kotlinx.coroutines.delay
@@ -363,7 +363,7 @@ fun TaskScreen(
                             TaskPriority.NULL -> MaterialTheme.colorScheme.onSurfaceVariant
                             TaskPriority.LOW -> Blue
                             TaskPriority.MEDIUM -> Yellow
-                            TaskPriority.HIGH -> Red
+                            TaskPriority.HIGH -> RedPrimary
                         },
                         title = stringResource(R.string.task_create_button_title_priority),
                         value = when (state.priority) {
