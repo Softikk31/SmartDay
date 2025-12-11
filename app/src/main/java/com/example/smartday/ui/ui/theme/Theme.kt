@@ -67,7 +67,7 @@ fun SmartDayTheme(
         ThemePrimaryColors.RED -> RedPrimary
         ThemePrimaryColors.BLUE -> Blue
         ThemePrimaryColors.ORANGE -> Orange
-        ThemePrimaryColors.GREEN -> Green
+        ThemePrimaryColors.GREEN -> GreenPrimary
         ThemePrimaryColors.PURPLE -> Purple
     }
 

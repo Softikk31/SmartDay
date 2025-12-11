@@ -1,5 +1,11 @@
 package com.example.smartday.ui.ui.screens
 
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -137,24 +143,56 @@ fun TaskScreen(
         CustomFloatActionButton(
             modifier = Modifier.imePadding()
         ) {
-            if ((state.title.isNotEmpty() and !((state.date == null) and
-                        (state.time != null)) and !((state.date == null) and
-                        (state.repetition != TaskRepetitionModel())))
-            ) {
-                if (state.id != null) {
-                    taskViewModel.editTask(context = context)
-                    navController.popBackStack()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                if (!alarmManager.canScheduleExactAlarms()) {
+                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                        data = Uri.fromParts("package", context.packageName, null)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+
+                    context.startActivity(intent)
                 } else {
-                    taskViewModel.createTask(context = context)
-                    navController.popBackStack()
+                    if ((state.title.isNotEmpty() and !((state.date == null) and
+                                (state.time != null)) and !((state.date == null) and
+                                (state.repetition != TaskRepetitionModel())))
+                    ) {
+                        if (state.id != null) {
+                            taskViewModel.editTask(context = context)
+                            navController.popBackStack()
+                        } else {
+                            taskViewModel.createTask(context = context)
+                            navController.popBackStack()
+                        }
+                        taskViewModel.onDismissDeleteAndEditTask()
+                    } else if (state.title.isEmpty()) {
+                        toastEmptyTitle.show()
+                    } else if ((state.date == null) and (state.time != null)) {
+                        toastNullTime.show()
+                    } else if ((state.date == null) and (state.time != TaskRepetitionModel())) {
+                        toastNullRepetition.show()
+                    }
                 }
-                taskViewModel.onDismissDeleteAndEditTask()
-            } else if (state.title.isEmpty()) {
-                toastEmptyTitle.show()
-            } else if ((state.date == null) and (state.time != null)) {
-                toastNullTime.show()
-            } else if ((state.date == null) and (state.time != TaskRepetitionModel())) {
-                toastNullRepetition.show()
+            } else {
+                if ((state.title.isNotEmpty() and !((state.date == null) and
+                            (state.time != null)) and !((state.date == null) and
+                            (state.repetition != TaskRepetitionModel())))
+                ) {
+                    if (state.id != null) {
+                        taskViewModel.editTask(context = context)
+                        navController.popBackStack()
+                    } else {
+                        taskViewModel.createTask(context = context)
+                        navController.popBackStack()
+                    }
+                    taskViewModel.onDismissDeleteAndEditTask()
+                } else if (state.title.isEmpty()) {
+                    toastEmptyTitle.show()
+                } else if ((state.date == null) and (state.time != null)) {
+                    toastNullTime.show()
+                } else if ((state.date == null) and (state.time != TaskRepetitionModel())) {
+                    toastNullRepetition.show()
+                }
             }
         }
     }) { innerPadding ->

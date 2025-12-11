@@ -111,7 +111,7 @@ fun TaskFormDialog(state: TaskFormState, taskViewModel: TaskViewModel, locale: L
 
     val selectedPriority = rememberSaveable(dialogMode) { mutableStateOf(state.priority) }
 
-    val selectRepetition = key(state.repetition) {
+    val selectRepetition = key(dialogMode) {
         rememberSaveable(
             stateSaver = Saver(
                 save = { repetition -> Json.encodeToString(repetition) },

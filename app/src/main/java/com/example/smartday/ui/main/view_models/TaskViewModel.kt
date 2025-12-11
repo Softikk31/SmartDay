@@ -1,6 +1,8 @@
 package com.example.smartday.ui.main.view_models
 
+import android.app.AlarmManager
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
@@ -87,7 +89,6 @@ class TaskViewModel(
                 }
         }
     }
-
 
 
     fun onSelectRepetition(repetition: TaskRepetitionModel) {
@@ -232,6 +233,12 @@ class TaskViewModel(
     }
 
     fun createTask(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (!alarmManager.canScheduleExactAlarms()) {
+                return
+            }
+        }
         viewModelScope.launch {
             val result =
                 createTaskUseCase(
@@ -275,6 +282,12 @@ class TaskViewModel(
     }
 
     fun editTask(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (!alarmManager.canScheduleExactAlarms()) {
+                return
+            }
+        }
         _stateTaskForm.value.id?.let { taskId ->
             viewModelScope.launch {
                 val result =

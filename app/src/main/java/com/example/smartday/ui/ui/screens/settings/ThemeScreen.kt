@@ -40,7 +40,7 @@ import com.example.smartday.ui.main.view_models.ThemeViewModel
 import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.theme.Blue
-import com.example.smartday.ui.ui.theme.Green
+import com.example.smartday.ui.ui.theme.GreenPrimary
 import com.example.smartday.ui.ui.theme.Orange
 import com.example.smartday.ui.ui.theme.Purple
 import com.example.smartday.ui.ui.theme.RedPrimary
@@ -216,7 +216,7 @@ fun ThemeScreen(
                     )
                     CircleSelectPrimary(
                         checked = theme.primaryColor == ThemePrimaryColors.GREEN,
-                        color = Green,
+                        color = GreenPrimary,
                         onClick = {
                             themeViewModel.editPrimary(ThemePrimaryColors.GREEN)
                         }

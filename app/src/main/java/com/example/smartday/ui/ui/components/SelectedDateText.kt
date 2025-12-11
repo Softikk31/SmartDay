@@ -32,14 +32,14 @@ fun SelectedDateText(
     ) {
         val dayName = date
             ?.dayOfWeek
-            ?.getDisplayName(DateTextStyle.SHORT_STANDALONE, locale)
+            ?.getDisplayName(DateTextStyle.FULL_STANDALONE, locale)
             ?.replaceFirstChar { it.uppercase() }
 
         Text(
             text = if (year) "$dayName, ${date?.dayOfMonth} ${
-                date?.month?.getDisplayName(DateTextStyle.FULL_STANDALONE, locale)
+                date?.month?.getDisplayName(DateTextStyle.SHORT_STANDALONE, locale)
             }, ${date?.year}" else "$dayName, ${date?.dayOfMonth} ${
-                date?.month?.getDisplayName(DateTextStyle.FULL_STANDALONE, locale)
+                date?.month?.getDisplayName(DateTextStyle.SHORT_STANDALONE, locale)
             }",
             style = style,
             color = color

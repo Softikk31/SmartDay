@@ -1,13 +1,21 @@
 package com.example.smartday.ui.ui.screens
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,13 +41,17 @@ import com.example.smartday.ui.main.view_models.MainViewModel
 import com.example.smartday.ui.main.view_models.TaskViewModel
 import com.example.smartday.ui.ui.components.CustomFloatActionButton
 import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
-import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.components.ItemTasks
+import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TasksScreen(navController: NavHostController, viewModel: MainViewModel, taskViewModel: TaskViewModel) {
+fun TasksScreen(
+    navController: NavHostController,
+    viewModel: MainViewModel,
+    taskViewModel: TaskViewModel
+) {
     val allTasksListItem by viewModel.allTasksListItem.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
     val taskDeleteMode by taskViewModel.deleteMode.collectAsState()
@@ -87,7 +99,8 @@ fun TasksScreen(navController: NavHostController, viewModel: MainViewModel, task
                             .absoluteOffset(x = 2.dp)
                             .size(24.dp)
                             .clickable(
-                                interactionSource = remember { MutableInteractionSource() }, indication = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null,
                                 onClick = {
                                     navController.navigate(Screen.Search)
                                 }),
@@ -125,7 +138,10 @@ fun TasksScreen(navController: NavHostController, viewModel: MainViewModel, task
         ) {
             if (allTasksListItem.isEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(bottom = 126.dp), contentAlignment = Alignment.Center
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 126.dp),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = stringResource(R.string.no_tasks_found_text),
@@ -144,7 +160,6 @@ fun TasksScreen(navController: NavHostController, viewModel: MainViewModel, task
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(allTasksListItem) { value ->
-                            Log.d("AAA", value.toString())
                             ItemTasks(value, lifecycleOwner, taskViewModel, navController)
                         }
                         item {

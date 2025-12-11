@@ -8,6 +8,9 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.example.smartday.R
 import com.example.smartday.core.enums.TaskTypeRepetition
@@ -99,14 +102,7 @@ class TaskAlarmReceiver : BroadcastReceiver(), KoinComponent {
         manager.createNotificationChannel(channel)
         CoroutineScope(Dispatchers.IO).launch {
             if (!getTaskUseCase(taskId).isCompleted) {
-                if ((getTaskUseCase(taskId).repetition != TaskRepetitionModel()) and (!getTaskUseCase(
-                        taskId
-                    ).isCompleted)
-                ) {
-                    manager.notify(taskId.hashCode(), notification)
-                } else if (getTaskUseCase(taskId).repetition == TaskRepetitionModel()) {
-                    manager.notify(taskId.hashCode(), notification)
-                }
+                manager.notify(taskId.hashCode(), notification)
             }
         }
 
@@ -169,52 +165,63 @@ fun scheduleTaskAlarm(
 
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    if (delay > ONE_HOUR_MS) {
-        val reminderTime = System.currentTimeMillis() + delay - ONE_HOUR_MS
-        val reminderIntent = Intent(context, TaskAlarmReceiver::class.java).apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (!alarmManager.canScheduleExactAlarms()) {
+            val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            context.startActivity(intent)
+        }
+    } else {
+        if (delay > ONE_HOUR_MS) {
+            val reminderTime = System.currentTimeMillis() + delay - ONE_HOUR_MS
+            val reminderIntent = Intent(context, TaskAlarmReceiver::class.java).apply {
+                dataWork(
+                    task.id,
+                    task.title,
+                    Json.encodeToString(task.repetition),
+                    NotificationType.REMINDER.name
+                )
+            }
+
+            val reminderPendingIntent = PendingIntent.getBroadcast(
+                context,
+                getRequestCode(task.id, NotificationType.REMINDER),
+                reminderIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                reminderTime,
+                reminderPendingIntent
+            )
+        }
+
+        val overdueTime = System.currentTimeMillis() + delay
+        val overdueIntent = Intent(context, TaskAlarmReceiver::class.java).apply {
             dataWork(
                 task.id,
                 task.title,
                 Json.encodeToString(task.repetition),
-                NotificationType.REMINDER.name
+                NotificationType.OVERDUE.name
             )
         }
 
-        val reminderPendingIntent = PendingIntent.getBroadcast(
+        val overduePendingIntent = PendingIntent.getBroadcast(
             context,
-            getRequestCode(task.id, NotificationType.REMINDER),
-            reminderIntent,
+            getRequestCode(task.id, NotificationType.OVERDUE),
+            overdueIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
-            reminderTime,
-            reminderPendingIntent
+            overdueTime,
+            overduePendingIntent
         )
     }
-
-    val overdueTime = System.currentTimeMillis() + delay
-    val overdueIntent = Intent(context, TaskAlarmReceiver::class.java).apply {
-        dataWork(
-            task.id,
-            task.title,
-            Json.encodeToString(task.repetition),
-            NotificationType.OVERDUE.name
-        )
-    }
-
-    val overduePendingIntent = PendingIntent.getBroadcast(
-        context,
-        getRequestCode(task.id, NotificationType.OVERDUE),
-        overdueIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
-
-    alarmManager.setExactAndAllowWhileIdle(
-        AlarmManager.RTC_WAKEUP,
-        overdueTime,
-        overduePendingIntent
-    )
 }
 
 

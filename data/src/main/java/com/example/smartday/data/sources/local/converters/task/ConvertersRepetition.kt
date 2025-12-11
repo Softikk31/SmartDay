@@ -1,3 +1,5 @@
+package com.example.smartday.data.sources.local.converters.task
+
 import androidx.room.TypeConverter
 import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
 import kotlinx.serialization.json.Json
