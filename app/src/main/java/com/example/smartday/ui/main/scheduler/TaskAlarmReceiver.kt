@@ -173,6 +173,53 @@ fun scheduleTaskAlarm(
             }
 
             context.startActivity(intent)
+        } else {
+            if (delay > ONE_HOUR_MS) {
+                val reminderTime = System.currentTimeMillis() + delay - ONE_HOUR_MS
+                val reminderIntent = Intent(context, TaskAlarmReceiver::class.java).apply {
+                    dataWork(
+                        task.id,
+                        task.title,
+                        Json.encodeToString(task.repetition),
+                        NotificationType.REMINDER.name
+                    )
+                }
+
+                val reminderPendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    getRequestCode(task.id, NotificationType.REMINDER),
+                    reminderIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    reminderTime,
+                    reminderPendingIntent
+                )
+            }
+
+            val overdueTime = System.currentTimeMillis() + delay
+            val overdueIntent = Intent(context, TaskAlarmReceiver::class.java).apply {
+                dataWork(
+                    task.id,
+                    task.title,
+                    Json.encodeToString(task.repetition),
+                    NotificationType.OVERDUE.name
+                )
+            }
+
+            val overduePendingIntent = PendingIntent.getBroadcast(
+                context,
+                getRequestCode(task.id, NotificationType.OVERDUE),
+                overdueIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                overdueTime,
+                overduePendingIntent
+            )
         }
     } else {
         if (delay > ONE_HOUR_MS) {

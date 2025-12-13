@@ -16,8 +16,8 @@ android {
         applicationId = "dev.smartday.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 7
-        versionName = "1.3.4-beta"
+        versionCode = 8
+        versionName = "1.3.4.1-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
