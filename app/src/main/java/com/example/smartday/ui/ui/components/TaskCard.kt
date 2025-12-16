@@ -230,8 +230,9 @@ fun TaskCard(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     val baseColor = when {
+                        task.isCompleted -> MaterialTheme.colorScheme.onSurfaceVariant
                         task.isOverdue -> MaterialTheme.colorScheme.error
-                        !task.isCompleted -> Green
+                        !task.isOverdue -> Green
                         else -> MaterialTheme.colorScheme.onSurfaceVariant
                     }
 

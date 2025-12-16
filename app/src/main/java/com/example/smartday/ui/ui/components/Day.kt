@@ -2,6 +2,7 @@ package com.example.smartday.ui.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.changedToUp
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
@@ -35,15 +38,35 @@ fun Day(
                 color = if ((day.position == DayPosition.MonthDate) and isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = CircleShape
             )
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                if (day.position == DayPosition.MonthDate) {
-                    if (enabledPastDays) {
-                        onClick(day)
-                    } else if (LocalDate.now() <= day.date) {
-                        onClick(day)
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val down = awaitFirstDown(false)
+                        val start = down.position
+                        var isDrag = false
+
+                        while (down.pressed) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.first()
+
+                            val distance = (change.position - start).getDistance()
+                            if (distance > 2f) {
+                                isDrag = true
+                            }
+                            if (change.changedToUp()) {
+                                if (!isDrag) {
+                                    if (day.position == DayPosition.MonthDate) {
+                                        if (enabledPastDays) {
+                                            onClick(day)
+                                        } else if (LocalDate.now() <= day.date) {
+                                            onClick(day)
+                                        }
+                                    }
+                                    change.consume()
+                                }
+                                break
+                            }
+                        }
                     }
                 }
             },
