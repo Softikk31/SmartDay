@@ -109,14 +109,34 @@ fun Day(
                 color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = CircleShape
             )
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                if (enabledPastDays) {
-                    onClick(day)
-                } else if (LocalDate.now() <= day.date) {
-                    onClick(day)
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val down = awaitFirstDown(false)
+                        val start = down.position
+                        var isDrag = false
+
+                        while (down.pressed) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.first()
+
+                            val distance = (change.position - start).getDistance()
+                            if (distance > 2f) {
+                                isDrag = true
+                            }
+                            if (change.changedToUp()) {
+                                if (!isDrag) {
+                                    if (enabledPastDays) {
+                                        onClick(day)
+                                    } else if (LocalDate.now() <= day.date) {
+                                        onClick(day)
+                                    }
+                                    change.consume()
+                                }
+                                break
+                            }
+                        }
+                    }
                 }
             },
         contentAlignment = Alignment.Center
