@@ -189,7 +189,7 @@ fun TaskCard(
                 horizontalAlignment = Alignment.Start
             ) {
 
-                Box(modifier = Modifier.width(160.dp)) {
+                Box(modifier = Modifier.width(300.dp)) {
                     val clipColor = MaterialTheme.colorScheme.onSurface.copy(
                         if (task.isCompleted) 0.5f else 1f
                     )
@@ -214,7 +214,7 @@ fun TaskCard(
                                 }
                             }
                         },
-                        maxLines = 1,
+                        maxLines = 4,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodyMedium.copy(
                             textDecoration = if (task.isCompleted)
