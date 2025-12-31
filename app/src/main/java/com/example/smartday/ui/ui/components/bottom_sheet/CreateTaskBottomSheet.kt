@@ -130,358 +130,377 @@ fun CreateTaskBottomSheet(
 
     TaskFormDialog(state = state, taskViewModel = taskViewModel, locale = locale)
 
-    ModalBottomSheet(
-        sheetState = sheetState,
-        onDismissRequest = onDismissRequest,
-        containerColor = MaterialTheme.colorScheme.surface,
-        shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-        dragHandle = {}
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = onDismissRequest,
+            containerColor = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+            dragHandle = {}
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(22.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(22.dp)
                 ) {
-                    BasicTextField(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(focusRequester),
-                        state = titleTextFieldState,
-                        textStyle = MaterialTheme.typography.titleMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        lineLimits = TextFieldLineLimits.SingleLine,
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                        decorator = TextFieldDefaults.decorator(
-                            state = titleTextFieldState,
-                            enabled = true,
-                            lineLimits = TextFieldLineLimits.SingleLine,
-                            outputTransformation = null,
-                            interactionSource = remember { MutableInteractionSource() },
-                            placeholder = {
-                                Text(
-                                    text = stringResource(R.string.task_title),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            },
-                            contentPadding = PaddingValues(0.dp),
-                            colors = colors(
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                selectionColors = TextSelectionColors(
-                                    handleColor = MaterialTheme.colorScheme.primary,
-                                    backgroundColor = MaterialTheme.colorScheme.primary.copy(
-                                        0.4f
-                                    )
-                                )
-                            )
-                        )
-                    )
-
-                    BasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        state = descriptionTextFieldState,
-                        textStyle = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
-                        lineLimits = TextFieldLineLimits.SingleLine,
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                        decorator = TextFieldDefaults.decorator(
-                            state = descriptionTextFieldState,
-                            enabled = true,
-                            lineLimits = TextFieldLineLimits.SingleLine,
-                            outputTransformation = null,
-                            interactionSource = remember { MutableInteractionSource() },
-                            placeholder = {
-                                Text(
-                                    text = stringResource(R.string.task_description),
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontSize = 16.sp
-                                    ),
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            },
-                            contentPadding = PaddingValues(0.dp),
-                            colors = colors(
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                selectionColors = TextSelectionColors(
-                                    handleColor = MaterialTheme.colorScheme.primary,
-                                    backgroundColor = MaterialTheme.colorScheme.primary.copy(
-                                        0.4f
-                                    )
-                                )
-                            )
-                        )
-                    )
-                }
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            .padding(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        item {
-                            Spacer(modifier = Modifier.width(10.dp))
-                        }
-                        item {
-                            TaskCustomiseButton(
-                                title = state.date?.toDisplayString(
-                                    locale = locale, context = LocalContext.current
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequester),
+                            state = titleTextFieldState,
+                            textStyle = MaterialTheme.typography.titleMedium.copy(
+                                color = MaterialTheme.colorScheme.onSurface
+                            ),
+                            lineLimits = TextFieldLineLimits.SingleLine,
+                            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                            decorator = TextFieldDefaults.decorator(
+                                state = titleTextFieldState,
+                                enabled = true,
+                                lineLimits = TextFieldLineLimits.SingleLine,
+                                outputTransformation = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                                placeholder = {
+                                    Text(
+                                        text = stringResource(R.string.task_title),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
+                                contentPadding = PaddingValues(0.dp),
+                                colors = colors(
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    selectionColors = TextSelectionColors(
+                                        handleColor = MaterialTheme.colorScheme.primary,
+                                        backgroundColor = MaterialTheme.colorScheme.primary.copy(
+                                            0.4f
+                                        )
+                                    )
                                 )
-                                    ?: stringResource(R.string.task_create_button_title_date),
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_calendar)
-                            ) {
-                                taskViewModel.dateSelection()
+                            )
+                        )
+
+                        BasicTextField(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            state = descriptionTextFieldState,
+                            textStyle = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onSurface
+                            ),
+                            lineLimits = TextFieldLineLimits.SingleLine,
+                            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                            decorator = TextFieldDefaults.decorator(
+                                state = descriptionTextFieldState,
+                                enabled = true,
+                                lineLimits = TextFieldLineLimits.SingleLine,
+                                outputTransformation = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                                placeholder = {
+                                    Text(
+                                        text = stringResource(R.string.task_description),
+                                        style = MaterialTheme.typography.bodyMedium.copy(
+                                            fontSize = 16.sp
+                                        ),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
+                                contentPadding = PaddingValues(0.dp),
+                                colors = colors(
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    selectionColors = TextSelectionColors(
+                                        handleColor = MaterialTheme.colorScheme.primary,
+                                        backgroundColor = MaterialTheme.colorScheme.primary.copy(
+                                            0.4f
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    }
+
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            item {
+                                Spacer(modifier = Modifier.width(10.dp))
                             }
-                        }
-                        item {
-                            TaskCustomiseButton(
-                                title = state.time?.toString()
-                                    ?: stringResource(R.string.task_create_button_title_reminder),
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_clock)
-                            ) {
-                                taskViewModel.timeSelection()
+                            item {
+                                TaskCustomiseButton(
+                                    title = state.date?.toDisplayString(
+                                        locale = locale, context = LocalContext.current
+                                    )
+                                        ?: stringResource(R.string.task_create_button_title_date),
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_calendar)
+                                ) {
+                                    taskViewModel.dateSelection()
+                                }
                             }
-                        }
-                        item {
-                            TaskCustomiseButton(
-                                title = when (val type =
-                                    state.repetition.type) {
-                                    is TaskTypeRepetition.OnSystemTypeRepetition -> {
-                                        when (type.enumClass) {
-                                            TaskTypeRepetitionSystem.EVERY_DAY -> stringResource(
-                                                R.string.repeat_every_day
-                                            )
-
-                                            TaskTypeRepetitionSystem.EVERY_WEEK_ON -> {
-                                                val dayOfWeek =
-                                                    state.date?.dayOfWeek?.getDisplayName(
-                                                        TextStyle.SHORT_STANDALONE,
-                                                        locale
-                                                    )
-                                                        ?: LocalDate.now().dayOfWeek.getDisplayName(
-                                                            TextStyle.SHORT_STANDALONE,
-                                                            locale
-                                                        )
-                                                stringResource(
-                                                    R.string.repeat_every_week_on,
-                                                    dayOfWeek
-                                                )
-                                            }
-
-                                            TaskTypeRepetitionSystem.EVERY_WORKDAY -> stringResource(
-                                                R.string.repeat_every_workday
-                                            )
-
-                                            TaskTypeRepetitionSystem.EVERY_MONTH_DATE -> {
-                                                val dayOfMonth = state.date?.dayOfMonth
-                                                    ?: LocalDate.now().dayOfMonth
-                                                stringResource(
-                                                    R.string.repeat_every_month_on,
-                                                    dayOfMonth
-                                                )
-                                            }
-
-                                            TaskTypeRepetitionSystem.EVERY_YEAR_DATE -> {
-                                                val date = state.date ?: LocalDate.now()
-                                                val monthName =
-                                                    date.month.getDisplayName(
-                                                        TextStyle.SHORT_STANDALONE,
-                                                        locale
-                                                    )
-                                                stringResource(
-                                                    R.string.repeat_every_year_on,
-                                                    "${date.dayOfMonth} $monthName"
-                                                )
-                                            }
-
-                                            else -> stringResource(R.string.task_create_button_title_repeat)
-                                        }
-                                    }
-
-
-                                    is TaskTypeRepetition.OnCustomTypeRepetition -> {
-                                        val counter = state.repetition.counter
-                                        when (type.enumClass) {
-                                            TaskTypeRepetitionCustom.DAY -> if (counter.toInt() == 1) {
-                                                stringResource(
+                            item {
+                                TaskCustomiseButton(
+                                    title = state.time?.toString()
+                                        ?: stringResource(R.string.task_create_button_title_reminder),
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_clock)
+                                ) {
+                                    taskViewModel.timeSelection()
+                                }
+                            }
+                            item {
+                                TaskCustomiseButton(
+                                    title = when (val type =
+                                        state.repetition.type) {
+                                        is TaskTypeRepetition.OnSystemTypeRepetition -> {
+                                            when (type.enumClass) {
+                                                TaskTypeRepetitionSystem.EVERY_DAY -> stringResource(
                                                     R.string.repeat_every_day
                                                 )
-                                            } else {
-                                                pluralStringResource(
-                                                    R.plurals.repeat_every_x_days_on,
-                                                    counter.toInt(),
-                                                    counter
-                                                )
-                                            }
 
-                                            TaskTypeRepetitionCustom.WEEK -> {
-                                                val daysRepetition =
-                                                    (state.repetition.value as? DaysOfWeekRepetition)?.value
-                                                        ?: emptyList()
-
-                                                val daysWeek =
-                                                    daysRepetition.joinToString(", ") { day ->
-                                                        day.getDisplayName(
+                                                TaskTypeRepetitionSystem.EVERY_WEEK_ON -> {
+                                                    val dayOfWeek =
+                                                        state.date?.dayOfWeek?.getDisplayName(
                                                             TextStyle.SHORT_STANDALONE,
                                                             locale
                                                         )
-                                                    }
-
-                                                if (counter.toInt() == 1) {
+                                                            ?: LocalDate.now().dayOfWeek.getDisplayName(
+                                                                TextStyle.SHORT_STANDALONE,
+                                                                locale
+                                                            )
                                                     stringResource(
                                                         R.string.repeat_every_week_on,
-                                                        daysWeek
-                                                    )
-                                                } else {
-                                                    pluralStringResource(
-                                                        R.plurals.repeat_every_x_weeks_on,
-                                                        counter.toInt(),
-                                                        counter,
-                                                        daysWeek
+                                                        dayOfWeek
                                                     )
                                                 }
-                                            }
 
-                                            TaskTypeRepetitionCustom.MONTH -> {
-                                                val dayOfMonth = state.date?.dayOfMonth
-                                                    ?: LocalDate.now().dayOfMonth
+                                                TaskTypeRepetitionSystem.EVERY_WORKDAY -> stringResource(
+                                                    R.string.repeat_every_workday
+                                                )
 
-                                                if (counter.toInt() == 1) {
+                                                TaskTypeRepetitionSystem.EVERY_MONTH_DATE -> {
+                                                    val dayOfMonth = state.date?.dayOfMonth
+                                                        ?: LocalDate.now().dayOfMonth
                                                     stringResource(
                                                         R.string.repeat_every_month_on,
                                                         dayOfMonth
                                                     )
-                                                } else {
-                                                    pluralStringResource(
-                                                        R.plurals.repeat_every_x_months_on,
-                                                        counter.toInt(),
-                                                        counter,
-                                                        dayOfMonth
-                                                    )
                                                 }
-                                            }
 
-                                            TaskTypeRepetitionCustom.YEAR -> {
-                                                val date = state.date ?: LocalDate.now()
-                                                val monthName =
-                                                    date.month.getDisplayName(
-                                                        TextStyle.SHORT_STANDALONE,
-                                                        locale
-                                                    )
-
-                                                if (counter.toInt() == 1) {
+                                                TaskTypeRepetitionSystem.EVERY_YEAR_DATE -> {
+                                                    val date = state.date ?: LocalDate.now()
+                                                    val monthName =
+                                                        date.month.getDisplayName(
+                                                            TextStyle.SHORT_STANDALONE,
+                                                            locale
+                                                        )
                                                     stringResource(
                                                         R.string.repeat_every_year_on,
                                                         "${date.dayOfMonth} $monthName"
                                                     )
+                                                }
+
+                                                else -> stringResource(R.string.task_create_button_title_repeat)
+                                            }
+                                        }
+
+
+                                        is TaskTypeRepetition.OnCustomTypeRepetition -> {
+                                            val counter = state.repetition.counter
+                                            when (type.enumClass) {
+                                                TaskTypeRepetitionCustom.DAY -> if (counter.toInt() == 1) {
+                                                    stringResource(
+                                                        R.string.repeat_every_day
+                                                    )
                                                 } else {
                                                     pluralStringResource(
-                                                        R.plurals.repeat_every_x_years_on,
+                                                        R.plurals.repeat_every_x_days_on,
                                                         counter.toInt(),
-                                                        counter,
-                                                        "${date.dayOfMonth} $monthName"
+                                                        counter
                                                     )
+                                                }
+
+                                                TaskTypeRepetitionCustom.WEEK -> {
+                                                    val daysRepetition =
+                                                        (state.repetition.value as? DaysOfWeekRepetition)?.value
+                                                            ?: emptyList()
+
+                                                    val daysWeek =
+                                                        daysRepetition.joinToString(", ") { day ->
+                                                            day.getDisplayName(
+                                                                TextStyle.SHORT_STANDALONE,
+                                                                locale
+                                                            )
+                                                        }
+
+                                                    if (counter.toInt() == 1) {
+                                                        stringResource(
+                                                            R.string.repeat_every_week_on,
+                                                            daysWeek
+                                                        )
+                                                    } else {
+                                                        pluralStringResource(
+                                                            R.plurals.repeat_every_x_weeks_on,
+                                                            counter.toInt(),
+                                                            counter,
+                                                            daysWeek
+                                                        )
+                                                    }
+                                                }
+
+                                                TaskTypeRepetitionCustom.MONTH -> {
+                                                    val dayOfMonth = state.date?.dayOfMonth
+                                                        ?: LocalDate.now().dayOfMonth
+
+                                                    if (counter.toInt() == 1) {
+                                                        stringResource(
+                                                            R.string.repeat_every_month_on,
+                                                            dayOfMonth
+                                                        )
+                                                    } else {
+                                                        pluralStringResource(
+                                                            R.plurals.repeat_every_x_months_on,
+                                                            counter.toInt(),
+                                                            counter,
+                                                            dayOfMonth
+                                                        )
+                                                    }
+                                                }
+
+                                                TaskTypeRepetitionCustom.YEAR -> {
+                                                    val date = state.date ?: LocalDate.now()
+                                                    val monthName =
+                                                        date.month.getDisplayName(
+                                                            TextStyle.SHORT_STANDALONE,
+                                                            locale
+                                                        )
+
+                                                    if (counter.toInt() == 1) {
+                                                        stringResource(
+                                                            R.string.repeat_every_year_on,
+                                                            "${date.dayOfMonth} $monthName"
+                                                        )
+                                                    } else {
+                                                        pluralStringResource(
+                                                            R.plurals.repeat_every_x_years_on,
+                                                            counter.toInt(),
+                                                            counter,
+                                                            "${date.dayOfMonth} $monthName"
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                },
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_repeat)) {
-                                taskViewModel.repetitionSelection()
+                                    },
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_repeat)) {
+                                    taskViewModel.repetitionSelection()
+                                }
+                            }
+                            item {
+                                TaskCustomiseButton(
+                                    title = when (state.priority) {
+                                        TaskPriority.NULL -> stringResource(R.string.task_create_button_title_priority)
+                                        TaskPriority.LOW -> stringResource(R.string.low_priority)
+                                        TaskPriority.MEDIUM -> stringResource(R.string.medium_priority)
+                                        TaskPriority.HIGH -> stringResource(R.string.high_priority)
+                                    },
+                                    contentColor = when (state.priority) {
+                                        TaskPriority.NULL -> MaterialTheme.colorScheme.outline
+                                        TaskPriority.LOW -> Blue
+                                        TaskPriority.MEDIUM -> Yellow
+                                        TaskPriority.HIGH -> RedPrimary
+                                    },
+                                    imageVector = ImageVector.vectorResource(R.drawable.ic_flag)
+                                ) {
+                                    taskViewModel.prioritySelection()
+                                }
+                            }
+                            item {
+                                Spacer(modifier = Modifier.width(10.dp))
                             }
                         }
-                        item {
-                            TaskCustomiseButton(
-                                title = when (state.priority) {
-                                    TaskPriority.NULL -> stringResource(R.string.task_create_button_title_priority)
-                                    TaskPriority.LOW -> stringResource(R.string.low_priority)
-                                    TaskPriority.MEDIUM -> stringResource(R.string.medium_priority)
-                                    TaskPriority.HIGH -> stringResource(R.string.high_priority)
-                                },
-                                contentColor = when (state.priority) {
-                                    TaskPriority.NULL -> MaterialTheme.colorScheme.outline
-                                    TaskPriority.LOW -> Blue
-                                    TaskPriority.MEDIUM -> Yellow
-                                    TaskPriority.HIGH -> RedPrimary
-                                },
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_flag)
-                            ) {
-                                taskViewModel.prioritySelection()
-                            }
-                        }
-                        item {
-                            Spacer(modifier = Modifier.width(10.dp))
-                        }
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .height(1.dp)
-                            .fillMaxWidth()
-                            .background(
-                                MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                    0.1f
+                        Spacer(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .fillMaxWidth()
+                                .background(
+                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                        0.1f
+                                    )
                                 )
-                            )
-                    )
+                        )
+                    }
                 }
-            }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Button(
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .padding(vertical = 8.dp)
-                        .height(40.dp)
-                        .width(48.dp),
-                    contentPadding = PaddingValues(vertical = 6.dp, horizontal = 10.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.surface,
-                        disabledContainerColor = MaterialTheme.colorScheme.primary,
-                        disabledContentColor = MaterialTheme.colorScheme.surface
-                    ),
-                    onClick = {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            val alarmManager =
-                                context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                            if (!alarmManager.canScheduleExactAlarms()) {
-                                val intent =
-                                    Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
-                                        data = Uri.fromParts(
-                                            "package", context.packageName, null
-                                        )
-                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .padding(vertical = 8.dp)
+                            .height(40.dp)
+                            .width(48.dp),
+                        contentPadding = PaddingValues(vertical = 6.dp, horizontal = 10.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.surface,
+                            disabledContainerColor = MaterialTheme.colorScheme.primary,
+                            disabledContentColor = MaterialTheme.colorScheme.surface
+                        ),
+                        onClick = {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                val alarmManager =
+                                    context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                                if (!alarmManager.canScheduleExactAlarms()) {
+                                    val intent =
+                                        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                                            data = Uri.fromParts(
+                                                "package", context.packageName, null
+                                            )
+                                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        }
+
+                                    context.startActivity(intent)
+                                } else {
+                                    if ((state.title.isNotEmpty() and !((state.date == null) and (state.time != null)) and !((state.date == null) and (state.repetition != TaskRepetitionModel())))) {
+                                        if (state.id != null) {
+                                            taskViewModel.editTask(context = context)
+                                            onDismissRequest()
+                                        } else {
+                                            taskViewModel.createTask(context = context)
+                                            onDismissRequest()
+                                        }
+                                        taskViewModel.onDismissDeleteAndEditTask()
+                                    } else if (state.title.isEmpty()) {
+                                        toastEmptyTitle.show()
+                                    } else if ((state.date == null) and (state.time != null)) {
+                                        toastNullTime.show()
+                                    } else if ((state.date == null) and (state.time != TaskRepetitionModel())) {
+                                        toastNullRepetition.show()
                                     }
-
-                                context.startActivity(intent)
+                                }
                             } else {
                                 if ((state.title.isNotEmpty() and !((state.date == null) and (state.time != null)) and !((state.date == null) and (state.repetition != TaskRepetitionModel())))) {
                                     if (state.id != null) {
@@ -500,30 +519,13 @@ fun CreateTaskBottomSheet(
                                     toastNullRepetition.show()
                                 }
                             }
-                        } else {
-                            if ((state.title.isNotEmpty() and !((state.date == null) and (state.time != null)) and !((state.date == null) and (state.repetition != TaskRepetitionModel())))) {
-                                if (state.id != null) {
-                                    taskViewModel.editTask(context = context)
-                                    onDismissRequest()
-                                } else {
-                                    taskViewModel.createTask(context = context)
-                                    onDismissRequest()
-                                }
-                                taskViewModel.onDismissDeleteAndEditTask()
-                            } else if (state.title.isEmpty()) {
-                                toastEmptyTitle.show()
-                            } else if ((state.date == null) and (state.time != null)) {
-                                toastNullTime.show()
-                            } else if ((state.date == null) and (state.time != TaskRepetitionModel())) {
-                                toastNullRepetition.show()
-                            }
-                        }
-                    }) {
-                    Icon(
-                        modifier = Modifier.size(22.dp),
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_paper_airplane),
-                        contentDescription = null
-                    )
+                        }) {
+                        Icon(
+                            modifier = Modifier.size(22.dp),
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_paper_airplane),
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         }

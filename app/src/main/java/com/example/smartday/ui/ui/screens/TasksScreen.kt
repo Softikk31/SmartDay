@@ -66,16 +66,14 @@ fun TasksScreen(
         }
     }
 
-    if (showBottomSheet) {
-        CreateTaskBottomSheet(
-            showBottomSheet = showBottomSheet,
-            taskViewModel = taskViewModel,
-            onDismissRequest = {
-                taskViewModel.editShowCreateTaskBottomSheet(false)
-                taskViewModel.onDismissDeleteAndEditTask()
-            }
-        )
-    }
+    CreateTaskBottomSheet(
+        showBottomSheet = showBottomSheet,
+        taskViewModel = taskViewModel,
+        onDismissRequest = {
+            taskViewModel.editShowCreateTaskBottomSheet(false)
+            taskViewModel.onDismissDeleteAndEditTask()
+        }
+    )
 
     CustomScaffoldTopBar(
         topBar = {

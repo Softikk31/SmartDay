@@ -90,9 +90,7 @@ fun SettingsScreen(
                             data = Uri.fromParts("package", context.packageName, null)
                         }
                     } else {
-                        Intent(Settings.ACTION_LOCALE_SETTINGS).apply {
-                            data = Uri.fromParts("package", context.packageName, null)
-                        }
+                        Intent(Settings.ACTION_LOCALE_SETTINGS)
                     }
                     context.startActivity(intent)
 
