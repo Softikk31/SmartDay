@@ -16,12 +16,10 @@ import org.koin.dsl.module
 
 
 val dataModule = module {
-    single {
+    single<AppDatabase> {
         Room.databaseBuilder(
-            context = get(),
-            klass = AppDatabase::class.java,
-            name = "smartday_database"
-        ).build()
+            context = get(), klass = AppDatabase::class.java, name = "Database.db"
+        ).fallbackToDestructiveMigration(true).build()
     }
 
     single<TaskDao> { get<AppDatabase>().taskDao() }

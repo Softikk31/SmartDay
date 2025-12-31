@@ -108,11 +108,18 @@ class TaskAlarmReceiver : BroadcastReceiver(), KoinComponent {
 
         if (taskRepetition != TaskRepetitionModel()) {
             CoroutineScope(Dispatchers.IO).launch {
+                getTaskUseCase(taskId).also { task ->
+                    updateTaskUseCase(
+                        task.copy(
+                            subtasks = task.subtasks.map { it.copy(isCompleted = false) },
+                        )
+                    )
+                }
                 scheduleTaskAlarm(
-                    context,
-                    overdueTaskUseCase,
-                    updateTaskUseCase,
-                    getTaskUseCase(taskId)
+                    context = context,
+                    overdueTaskUseCase = overdueTaskUseCase,
+                    updateTaskUseCase = updateTaskUseCase,
+                    task = getTaskUseCase(taskId)
                 )
             }
         }
@@ -291,7 +298,8 @@ private fun calculateNextTriggerTime(
         is TaskTypeRepetition.OnCustomTypeRepetition -> when (type.enumClass) {
             TaskTypeRepetitionCustom.DAY -> from.toLocalDate().plusDays(repetition.counter.toLong())
             TaskTypeRepetitionCustom.WEEK -> {
-                from.toLocalDate().nextValueDaysWeekDate(repetition.value, repetition.counter)
+                from.toLocalDate()
+                    .nextValueDaysWeekDate(repetition.value, repetition.counter.toInt())
             }
 
             TaskTypeRepetitionCustom.MONTH -> from.toLocalDate()

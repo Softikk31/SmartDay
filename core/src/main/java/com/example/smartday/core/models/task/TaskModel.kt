@@ -10,6 +10,8 @@ import java.time.LocalTime
 data class TaskModel(
     val id: Long = 0,
     val title: String,
+    val description: String? = null,
+    val subtasks: List<SubtaskModel>,
     val isCompleted: Boolean = false,
     val isOverdue: Boolean = false,
     val repetition: TaskRepetitionModel =

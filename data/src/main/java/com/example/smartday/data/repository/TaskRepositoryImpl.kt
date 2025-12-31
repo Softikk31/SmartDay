@@ -27,6 +27,9 @@ class TaskRepositoryImpl(private val localDataSource: TaskLocalSource) : TaskRep
     override suspend fun completingTask(taskId: Long) =
         localDataSource.completingTask(taskId = taskId)
 
+    override suspend fun cancelCompletingTask(taskId: Long) =
+        localDataSource.cancelCompletingTask(taskId = taskId)
+
     override suspend fun overdueTask(taskId: Long) = localDataSource.overdueTask(taskId = taskId)
 
     override suspend fun createTask(task: TaskModel) =

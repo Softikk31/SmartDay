@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartday.R
 import com.example.smartday.core.enums.TaskPriority
+import com.example.smartday.core.models.task.SubtaskModel
 import com.example.smartday.core.models.task.TaskModel
 import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
+import com.example.smartday.domain.usecase.task.CancelCompletingTaskUseCase
 import com.example.smartday.domain.usecase.task.CompletingTaskUseCase
 import com.example.smartday.domain.usecase.task.CreateTaskUseCase
 import com.example.smartday.domain.usecase.task.DeleteTaskUseCase
@@ -34,6 +36,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.UUID
 
 class TaskViewModel(
     private val getFoundTasksUseCase: GetFoundTasksUseCase,
@@ -41,6 +44,7 @@ class TaskViewModel(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val completingTaskUseCase: CompletingTaskUseCase,
+    private val cancelCompletingTaskUseCase: CancelCompletingTaskUseCase,
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val getTaskUseCase: GetTaskUseCase,
     context: Context
@@ -58,6 +62,13 @@ class TaskViewModel(
     val stateTaskForm = _stateTaskForm.asStateFlow()
 
     private val _error = MutableStateFlow(TaskErrorState())
+
+    private val _showCreateTaskBottomSheet = MutableStateFlow(false)
+    val showCreateTaskBottomSheet = _showCreateTaskBottomSheet.asStateFlow()
+
+    fun editShowCreateTaskBottomSheet(visible: Boolean) {
+        _showCreateTaskBottomSheet.value = visible
+    }
 
 
     init {
@@ -88,15 +99,6 @@ class TaskViewModel(
                     onDismissDeleteModeByAllTasks()
                 }
         }
-    }
-
-
-    fun onSelectRepetition(repetition: TaskRepetitionModel) {
-        _stateTaskForm.update { it.copy(repetition = repetition) }
-    }
-
-    fun onSelectPriority(priority: TaskPriority) {
-        _stateTaskForm.update { it.copy(priority = priority) }
     }
 
     fun prioritySelection() {
@@ -161,12 +163,28 @@ class TaskViewModel(
         _stateTaskForm.update { it.copy(title = title) }
     }
 
+    fun onDescriptionChange(description: String?) {
+        _stateTaskForm.update { it.copy(description = description) }
+    }
+
+    fun onSubtaskChange(subtasks: List<SubtaskModel>) {
+        _stateTaskForm.update { it.copy(subtasks = subtasks) }
+    }
+
     fun onDateSelected(date: LocalDate?) {
         _stateTaskForm.update { it.copy(date = date) }
     }
 
     fun onTimeSelected(time: LocalTime?) {
         _stateTaskForm.update { it.copy(time = time) }
+    }
+
+    fun onSelectRepetition(repetition: TaskRepetitionModel) {
+        _stateTaskForm.update { it.copy(repetition = repetition) }
+    }
+
+    fun onSelectPriority(priority: TaskPriority) {
+        _stateTaskForm.update { it.copy(priority = priority) }
     }
 
     fun selectTaskId(taskId: Long) {
@@ -203,6 +221,8 @@ class TaskViewModel(
     fun onEditParamSelected(
         id: Long,
         title: String,
+        description: String?,
+        subtasks: List<SubtaskModel>,
         priority: TaskPriority,
         repetition: TaskRepetitionModel,
         date: LocalDate?,
@@ -210,6 +230,8 @@ class TaskViewModel(
     ) {
         onIdChange(id = id)
         onTitleChange(title = title)
+        onDescriptionChange(description = description)
+        onSubtaskChange(subtasks = subtasks)
         onSelectPriority(priority = priority)
         onSelectRepetition(repetition = repetition)
         onDateSelected(date = date)
@@ -232,6 +254,41 @@ class TaskViewModel(
         }
     }
 
+    fun createSubtask() {
+        _stateTaskForm.update {
+            if (it.subtasks.size < 5) {
+                val list = it.subtasks.toMutableList()
+                val id = UUID.randomUUID().mostSignificantBits
+                list.add(SubtaskModel(id = id, title = "", isCompleted = false))
+                it.copy(subtasks = list)
+            } else {
+                return
+            }
+        }
+    }
+
+    fun deleteSubtask(subtask: SubtaskModel) {
+        _stateTaskForm.update {
+            val list = it.subtasks.toMutableList()
+            list.remove(subtask)
+            it.copy(subtasks = list)
+        }
+    }
+
+    fun editSubtask(subtask: SubtaskModel) {
+        _stateTaskForm.update {
+            val list = it.subtasks
+            val mappedList = list.map { subtaskParam ->
+                if (subtask.id == subtaskParam.id) {
+                    subtask
+                } else {
+                    subtaskParam
+                }
+            }
+            it.copy(subtasks = mappedList)
+        }
+    }
+
     fun createTask(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -244,13 +301,16 @@ class TaskViewModel(
                 createTaskUseCase(
                     task = TaskModel(
                         title = _stateTaskForm.value.title.trim(),
+                        description = if (_stateTaskForm.value.description?.trim() == "") null else _stateTaskForm.value.description?.trim(),
+                        subtasks = _stateTaskForm.value.subtasks.filter { it.title.isNotEmpty() },
                         repetition = _stateTaskForm.value.repetition,
                         priority = TaskPriority.entries.find {
                             it.ordinal == _stateTaskForm.value.priority.ordinal
                         } ?: TaskPriority.NULL,
                         date = _stateTaskForm.value.date,
                         notification = _stateTaskForm.value.time,
-                    ))
+                    )
+                )
             result.onFailure { error ->
                 when (error.message) {
                     "EMPTY_TITLE" -> {
@@ -295,13 +355,16 @@ class TaskViewModel(
                         task = TaskModel(
                             id = taskId,
                             title = _stateTaskForm.value.title.trim(),
+                            description = if (_stateTaskForm.value.description?.trim() == "") null else _stateTaskForm.value.description?.trim(),
+                            subtasks = _stateTaskForm.value.subtasks.filter { it.title.isNotEmpty() },
                             repetition = _stateTaskForm.value.repetition,
                             priority = TaskPriority.entries.find {
                                 it.ordinal == _stateTaskForm.value.priority.ordinal
                             } ?: TaskPriority.NULL,
                             date = _stateTaskForm.value.date,
                             notification = _stateTaskForm.value.time,
-                        ))
+                        )
+                    )
                 result.onFailure { error ->
                     when (error.message) {
                         "EMPTY_TITLE" -> {
@@ -351,6 +414,12 @@ class TaskViewModel(
                 cancelTaskAlarm(context, taskId)
             }
             completingTaskUseCase(taskId = taskId)
+        }
+    }
+
+    fun cancelCompletingTask(taskId: Long) {
+        viewModelScope.launch {
+            cancelCompletingTaskUseCase(taskId = taskId)
         }
     }
 }

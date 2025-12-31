@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,19 +32,17 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import com.example.smartday.R
 import com.example.smartday.ui.main.view_models.MainViewModel
 import com.example.smartday.ui.main.view_models.TaskViewModel
-import com.example.smartday.ui.ui.components.CustomFloatActionButton
-import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
-import com.example.smartday.ui.ui.components.ItemTasks
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
-import com.example.smartday.ui.ui.navigation.Screen
+import com.example.smartday.ui.ui.components.bottom_sheet.CreateTaskBottomSheet
+import com.example.smartday.ui.ui.components.scaffold.CustomScaffoldTopBar
+import com.example.smartday.ui.ui.components.task.ItemTasks
+import com.example.smartday.ui.ui.navigation.Search
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreen(
     navController: NavHostController,
@@ -56,10 +53,28 @@ fun TasksScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val taskDeleteMode by taskViewModel.deleteMode.collectAsState()
 
+    val showBottomSheet by taskViewModel.showCreateTaskBottomSheet.collectAsState()
+
     BackHandler {
         if (taskDeleteMode.isDeleting) {
             taskViewModel.onDismissDeleteMode()
+        } else if (showBottomSheet) {
+            taskViewModel.editShowCreateTaskBottomSheet(false)
+            taskViewModel.onDismissDeleteAndEditTask()
+        } else {
+            navController.popBackStack()
         }
+    }
+
+    if (showBottomSheet) {
+        CreateTaskBottomSheet(
+            showBottomSheet = showBottomSheet,
+            taskViewModel = taskViewModel,
+            onDismissRequest = {
+                taskViewModel.editShowCreateTaskBottomSheet(false)
+                taskViewModel.onDismissDeleteAndEditTask()
+            }
+        )
     }
 
     CustomScaffoldTopBar(
@@ -102,29 +117,13 @@ fun TasksScreen(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null,
                                 onClick = {
-                                    navController.navigate(Screen.Search)
+                                    navController.navigate(Search)
                                 }),
                         imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                         tint = MaterialTheme.colorScheme.onSurface,
                         contentDescription = null
                     )
                 }
-            }
-        },
-        floatingActionButton = {
-            AnimatedVisibility(
-                visible = !taskDeleteMode.isDeleting,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                CustomFloatActionButton(
-                    onClick = {
-                        val currentState = lifecycleOwner.lifecycle.currentState
-                        if (currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                            navController.navigate(Screen.Task)
-                        }
-                    }
-                )
             }
         }
     ) { innerPadding ->

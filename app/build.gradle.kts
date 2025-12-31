@@ -51,8 +51,6 @@ dependencies {
     implementation(project(path = ":domain"))
     implementation(project(path = ":core"))
 
-    implementation(libs.accompanist.systemuicontroller)
-
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)

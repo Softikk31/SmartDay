@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.example.smartday.core.enums.ThemePrimaryColors
 import com.example.smartday.ui.main.view_models.ThemeViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.koinViewModel
 
 private val DarkColorScheme = darkColorScheme(
@@ -18,6 +17,7 @@ private val DarkColorScheme = darkColorScheme(
     surface = BlackDeep,
     onSurface = Color.White,
     onSurfaceVariant = GrayLight,
+    outline = Gray,
     surfaceContainer = GrayDark,
     surfaceContainerHigh = BlackSoft,
     surfaceContainerHighest = BlackDark,
@@ -29,6 +29,7 @@ private val LightColorScheme = lightColorScheme(
     surface = White,
     onSurface = Color.Black,
     onSurfaceVariant = GrayLight,
+    outline = Gray,
     surfaceContainer = WhiteStone,
     surfaceContainerHigh = WhiteSoft,
     surfaceContainerHighest = WhiteWarm,
@@ -42,18 +43,6 @@ fun SmartDayTheme(
 ) {
     val themeViewModel: ThemeViewModel = koinViewModel()
     val theme by themeViewModel.theme.collectAsState()
-
-    val systemUiController = rememberSystemUiController()
-
-    systemUiController.setStatusBarColor(
-        darkIcons = when {
-            theme.systemTheme -> !isSystemInDarkTheme()
-            theme.isDarkMode -> false
-            else -> true
-        },
-        color = Color.Transparent
-    )
-
 
     val darkTheme = if (theme.systemTheme) isSystemInDarkTheme() else theme.isDarkMode
 

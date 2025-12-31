@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,7 +24,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.smartday.R
-import com.example.smartday.ui.ui.navigation.Screen
+import com.example.smartday.ui.ui.navigation.Home
+import com.example.smartday.ui.ui.navigation.Settings
+import com.example.smartday.ui.ui.navigation.Tasks
 
 private val navigationBarItemHeight = 56.dp
 
@@ -34,17 +40,19 @@ fun CustomNavBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(110.dp)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Top
     ) {
         NavigationBarItem(
-            modifier = Modifier.padding(top = 8.dp).height(navigationBarItemHeight),
-            selected = currentDestination?.route == Screen.Home::class.qualifiedName,
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .height(navigationBarItemHeight),
+            selected = currentDestination?.route == Home::class.qualifiedName,
             onClick = {
-                if (currentDestination?.route != Screen.Home::class.qualifiedName) navController.navigate(
-                    Screen.Home
+                if (currentDestination?.route != Home::class.qualifiedName) navController.navigate(
+                    Home
                 )
             },
             icon = {
@@ -69,11 +77,13 @@ fun CustomNavBar(
         )
 
         NavigationBarItem(
-            modifier = Modifier.padding(top = 8.dp).height(navigationBarItemHeight),
-            selected = currentDestination?.route == Screen.Tasks::class.qualifiedName,
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .height(navigationBarItemHeight),
+            selected = currentDestination?.route == Tasks::class.qualifiedName,
             onClick = {
-                if (currentDestination?.route != Screen.Tasks::class.qualifiedName) navController.navigate(
-                    Screen.Tasks
+                if (currentDestination?.route != Tasks::class.qualifiedName) navController.navigate(
+                    Tasks
                 )
             },
             icon = {
@@ -98,11 +108,13 @@ fun CustomNavBar(
         )
 
         NavigationBarItem(
-            modifier = Modifier.padding(top = 8.dp).height(navigationBarItemHeight),
-            selected = currentDestination?.route == Screen.Settings::class.qualifiedName,
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .height(navigationBarItemHeight),
+            selected = currentDestination?.route == Settings::class.qualifiedName,
             onClick = {
-                if (currentDestination?.route != Screen.Settings::class.qualifiedName) navController.navigate(
-                    Screen.Settings
+                if (currentDestination?.route != Settings::class.qualifiedName) navController.navigate(
+                    Settings
                 )
             },
             icon = {

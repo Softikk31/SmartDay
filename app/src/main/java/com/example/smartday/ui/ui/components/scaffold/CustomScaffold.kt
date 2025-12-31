@@ -1,4 +1,4 @@
-package com.example.smartday.ui.ui.components
+package com.example.smartday.ui.ui.components.scaffold
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.MaterialTheme

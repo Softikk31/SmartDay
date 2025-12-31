@@ -2,7 +2,14 @@ package com.example.smartday.ui.ui.components.bars
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.absoluteOffset
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CheckboxDefaults.colors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +22,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+
+@Composable
+fun CustomTopBar(modifier: Modifier = Modifier, icon: ImageVector, onClick: () -> Unit) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Icon(
+            modifier = Modifier
+                .absoluteOffset(x = -(2).dp)
+                .size(25.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick
+                ),
+            imageVector = icon,
+            tint = MaterialTheme.colorScheme.onSurface,
+            contentDescription = null
+        )
+    }
+}
 
 @Composable
 fun CustomTopBar(
@@ -65,14 +95,20 @@ fun CustomTopBar(modifier: Modifier = Modifier, text: String) {
 }
 
 @Composable
-fun CustomTopBar(modifier: Modifier = Modifier, icon: ImageVector, text: String, onClick: () -> Unit = {}) {
+fun CustomTopBar(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    text: String,
+    onClick: () -> Unit = {}
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
                 modifier = Modifier
@@ -88,7 +124,9 @@ fun CustomTopBar(modifier: Modifier = Modifier, icon: ImageVector, text: String,
                 contentDescription = null
             )
             Text(
-                text = text, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface
+                text = text,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -114,12 +152,13 @@ fun CustomTopBar(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Icon(
                     modifier = Modifier
                         .absoluteOffset(x = -(2).dp)
-                        .size(25.dp)
+                        .size(24.dp)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
@@ -163,7 +202,8 @@ fun CustomTopBar(
             .padding(16.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
                 modifier = Modifier
@@ -194,7 +234,8 @@ fun CustomTopBar(modifier: Modifier = Modifier, text: String, content: @Composab
         Row(
             modifier = modifier
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = text,

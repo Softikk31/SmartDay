@@ -1,10 +1,9 @@
-package com.example.smartday.ui.ui.components
+package com.example.smartday.ui.ui.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -16,13 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.smartday.R
 
 @Composable
-fun CustomFloatActionButton(
+fun CustomActionButton(
     modifier: Modifier = Modifier,
+    imageVector: ImageVector = ImageVector.vectorResource(R.drawable.ic_plus),
     enabled: Boolean = true,
     colorContainer: Color = MaterialTheme.colorScheme.primary,
     colorContent: Color = MaterialTheme.colorScheme.surface,
@@ -30,24 +29,23 @@ fun CustomFloatActionButton(
 ) {
     Box(
         modifier = modifier
-            .padding(bottom = CustomFloatActionButtonBottomPadding)
             .size(56.dp)
             .background(
                 color = colorContainer, shape = RoundedCornerShape(16.dp)
             )
             .clickable(
-                enabled = enabled, interactionSource = remember { MutableInteractionSource() }, indication = null
+                enabled = enabled,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
             ) {
                 onClick()
             }, contentAlignment = Alignment.Center
     ) {
         Icon(
             modifier = Modifier.size(20.dp),
-            imageVector = ImageVector.vectorResource(R.drawable.ic_plus),
+            imageVector = imageVector,
             contentDescription = null,
             tint = colorContent
         )
     }
 }
-
-private val CustomFloatActionButtonBottomPadding: Dp = 80.dp

@@ -11,5 +11,5 @@ data class TaskRepetitionModel(
     val type: TaskTypeRepetition = TaskTypeRepetition.OnSystemTypeRepetition(
         TaskTypeRepetitionSystem.NULL
     ),
-    val counter: Int = 1
+    val counter: String = 1.toString()
 )

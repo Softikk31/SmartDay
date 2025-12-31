@@ -1,4 +1,4 @@
-package com.example.smartday.ui.ui.components
+package com.example.smartday.ui.ui.components.task
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavHostController
 import com.example.smartday.ui.main.view_models.TaskViewModel
 import com.example.smartday.ui.models.states.TaskListItem
-import com.example.smartday.ui.ui.navigation.Screen
+import com.example.smartday.ui.ui.navigation.Task
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -69,7 +69,7 @@ fun ItemTasks(
                         ) {
                             val currentState = lifecycleOwner.lifecycle.currentState
                             if (currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                                navController.navigate(Screen.Task)
+                                navController.navigate(Task)
                             }
                         }
                     }

@@ -18,9 +18,9 @@
     <string name="button_cancel">Отменить</string>
     <string name="reminder_set_time">Указать время напоминания</string>
     <string name="notification_time">Время напоминания</string>
-    <string name="task_title">Название</string>
+    <string name="task_title">Название задачи</string>
     <string name="task_create_button_title_date">Дата</string>
-    <string name="task_create_button_title_reminder_time">Время напоминания</string>
+    <string name="task_create_button_title_reminder">Напоминание</string>
     <string name="title_edit_task">Редактировать задачу</string>
     <string name="time">Время</string>
     <string name="delete">Удалить</string>
@@ -43,7 +43,7 @@
     <string name="one_time_repetition">Один раз</string>
     <string name="toast_warning_null_id">Задача не может существовать без ID!</string>
     <string name="save">Сохранить</string>
-    <string name="task_create_button_title_repetition">Повторение</string>
+    <string name="task_create_button_title_repeat">Повтор</string>
     <string name="repeat_never">Не повторять</string>
 
     <string name="repeat_every_workday">Каждый будний день</string>
@@ -105,4 +105,10 @@
 
     <string name="notification_permission_denied">Разрешение на уведомления не выдано</string>
     <string name="task_category_no_time">Без времени</string>
+    <string name="unknown_route">Неизвестный маршрут</string>
+    <string name="task_description">Описание</string>
+    <string name="add_subtask">Добавить подзадачу</string>
+    <string name="subtask">Подзадача</string>
+    <string name="title_language">"Язык "</string>
+    <string name="language_settings_label">Нажмите, чтобы изменить локализацию</string>
 </resources>

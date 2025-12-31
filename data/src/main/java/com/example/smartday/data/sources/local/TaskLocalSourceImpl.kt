@@ -32,6 +32,9 @@ class TaskLocalSourceImpl(
     override suspend fun completingTask(taskId: Long) =
         taskDao.completingTask(taskId = taskId)
 
+    override suspend fun cancelCompletingTask(taskId: Long) =
+        taskDao.cancelCompletingTask(taskId = taskId)
+
     override suspend fun overdueTask(taskId: Long) =
         taskDao.overdueTask(taskId = taskId)
 

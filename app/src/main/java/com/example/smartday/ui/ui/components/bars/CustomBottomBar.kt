@@ -22,7 +22,7 @@ fun CustomBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(110.dp)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Top

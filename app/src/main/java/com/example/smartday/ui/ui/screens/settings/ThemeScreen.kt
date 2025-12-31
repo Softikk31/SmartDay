@@ -37,7 +37,7 @@ import androidx.navigation.NavHostController
 import com.example.smartday.R
 import com.example.smartday.core.enums.ThemePrimaryColors
 import com.example.smartday.ui.main.view_models.ThemeViewModel
-import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
+import com.example.smartday.ui.ui.components.scaffold.CustomScaffoldTopBar
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.ui.theme.Blue
 import com.example.smartday.ui.ui.theme.GreenPrimary
@@ -144,7 +144,7 @@ fun ThemeScreen(
                         }
                     ),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.primary
                 )
 
                 Text(
@@ -160,8 +160,8 @@ fun ThemeScreen(
                             else -> R.string.switch_to_dark_theme
                         }
                     ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 

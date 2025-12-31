@@ -1,6 +1,5 @@
 package com.example.smartday.ui.ui.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -44,10 +43,11 @@ import androidx.navigation.NavHostController
 import com.example.smartday.R
 import com.example.smartday.ui.main.view_models.TaskViewModel
 import com.example.smartday.ui.models.states.TaskFoundState
-import com.example.smartday.ui.ui.components.CustomScaffoldTopBar
-import com.example.smartday.ui.ui.components.TaskCard
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
-import com.example.smartday.ui.ui.navigation.Screen
+import com.example.smartday.ui.ui.components.scaffold.CustomScaffoldTopBar
+import com.example.smartday.ui.ui.components.task.TaskCard
+import com.example.smartday.ui.ui.navigation.Search
+import com.example.smartday.ui.ui.navigation.Task
 import kotlinx.coroutines.delay
 
 @Composable
@@ -66,13 +66,6 @@ fun SearchScreen(navController: NavHostController, taskViewModel: TaskViewModel)
     val title by remember(textFieldState.text) { mutableStateOf(textFieldState.text) }
 
     val tasksFound by taskViewModel.getFoundTasks(title.toString()).collectAsState(TaskFoundState())
-
-    BackHandler {
-        val currentState = lifecycleOwner.lifecycle.currentState
-        if (currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            navController.popBackStack()
-        }
-    }
 
     CustomScaffoldTopBar(
         topBar = {
@@ -107,7 +100,7 @@ fun SearchScreen(navController: NavHostController, taskViewModel: TaskViewModel)
                                     interactionSource = remember { MutableInteractionSource() },
                                     indication = null,
                                     onClick = {
-                                        navController.navigate(Screen.Search)
+                                        navController.navigate(Search)
                                     }),
                             imageVector = ImageVector.vectorResource(R.drawable.ic_search),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -160,7 +153,7 @@ fun SearchScreen(navController: NavHostController, taskViewModel: TaskViewModel)
                             ) {
                                 val currentState = lifecycleOwner.lifecycle.currentState
                                 if (currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                                    navController.navigate(Screen.Task)
+                                    navController.navigate(Task)
                                 }
                             }
                         }

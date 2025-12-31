@@ -1,18 +1,40 @@
 package com.example.smartday.ui.ui.screens
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -23,7 +45,11 @@ import androidx.compose.ui.unit.dp
 import com.example.smartday.R
 import com.example.smartday.ui.main.view_models.MainViewModel
 import com.example.smartday.ui.main.view_models.TaskViewModel
-import com.example.smartday.ui.ui.components.*
+import com.example.smartday.ui.ui.components.scaffold.CustomScaffoldTopBar
+import com.example.smartday.ui.ui.components.calendar.Day
+import com.example.smartday.ui.ui.components.calendar.DaysOfWeekTitle
+import com.example.smartday.ui.ui.components.calendar.SelectedDateText
+import com.example.smartday.ui.ui.components.task.TaskCard
 import com.example.smartday.ui.ui.components.bars.CustomTopBar
 import com.example.smartday.ui.utils.rememberFirstMostVisibleMonth
 import com.example.smartday.ui.utils.rememberFirstVisibleWeek
@@ -33,12 +59,16 @@ import com.kizitonwose.calendar.compose.WeekCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.compose.weekcalendar.WeekCalendarState
 import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
-import com.kizitonwose.calendar.core.*
+import com.kizitonwose.calendar.core.CalendarMonth
+import com.kizitonwose.calendar.core.Week
+import com.kizitonwose.calendar.core.atStartOfMonth
+import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
+import com.kizitonwose.calendar.core.yearMonth
 import kotlinx.coroutines.FlowPreview
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
-import java.util.*
+import java.util.Locale
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class, FlowPreview::class)
@@ -67,7 +97,10 @@ fun HomeScreen(viewModel: MainViewModel, taskViewModel: TaskViewModel) {
 
 
     val monthState = rememberCalendarState(
-        startMonth = startMonth, endMonth = endMonth, firstVisibleMonth = currentMonth, firstDayOfWeek = firstDayOfWeek
+        startMonth = startMonth,
+        endMonth = endMonth,
+        firstVisibleMonth = currentMonth,
+        firstDayOfWeek = firstDayOfWeek
     )
     val weekState = rememberWeekCalendarState(
         startDate = startMonth.atStartOfMonth(),
@@ -101,7 +134,10 @@ fun HomeScreen(viewModel: MainViewModel, taskViewModel: TaskViewModel) {
         topBar = {
             CustomTopBar(
                 text = calendarTitle(
-                    isWeekMode = isWeekMode, monthState = monthState, weekState = weekState, locale = locale
+                    isWeekMode = isWeekMode,
+                    monthState = monthState,
+                    weekState = weekState,
+                    locale = locale
                 ), secondaryText = calendarSecondaryText(
                     isWeekMode = isWeekMode, monthState = monthState, weekState = weekState
                 )
@@ -125,7 +161,11 @@ fun HomeScreen(viewModel: MainViewModel, taskViewModel: TaskViewModel) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            DaysOfWeekTitle(modifier = Modifier.padding(horizontal = 16.dp), daysOfWeek = daysOfWeek, locale = locale)
+            DaysOfWeekTitle(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                daysOfWeek = daysOfWeek,
+                locale = locale
+            )
 
             AnimatedContent(
                 isWeekMode, transitionSpec = {
@@ -274,7 +314,8 @@ private fun calendarTitle(
     isWeekMode: Boolean, monthState: CalendarState, weekState: WeekCalendarState, locale: Locale
 ): String {
 
-    val firstVisibleMonth: CalendarMonth = rememberFirstMostVisibleMonth(monthState, viewportPercent = 50f)
+    val firstVisibleMonth: CalendarMonth =
+        rememberFirstMostVisibleMonth(monthState, viewportPercent = 50f)
     val firstVisibleWeek: Week = rememberFirstVisibleWeek(weekState, viewportPercent = 50f)
 
     return if (!isWeekMode) firstVisibleMonth.yearMonth.month.getDisplayName(
@@ -295,7 +336,8 @@ private fun calendarSecondaryText(
     isWeekMode: Boolean, monthState: CalendarState, weekState: WeekCalendarState
 ): String {
 
-    val firstVisibleMonth: CalendarMonth = rememberFirstMostVisibleMonth(monthState, viewportPercent = 50f)
+    val firstVisibleMonth: CalendarMonth =
+        rememberFirstMostVisibleMonth(monthState, viewportPercent = 50f)
     val firstVisibleWeek: Week = rememberFirstVisibleWeek(weekState, viewportPercent = 50f)
 
     return if (!isWeekMode) "${firstVisibleMonth.yearMonth.year}, ${firstVisibleMonth.yearMonth.month.value} ${

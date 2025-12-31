@@ -1,5 +1,12 @@
-package com.example.smartday.ui.ui.components
+package com.example.smartday.ui.ui.components.task
 
+import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
@@ -10,7 +17,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
@@ -54,6 +60,7 @@ import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun TaskCard(
     modifier: Modifier = Modifier,
@@ -77,7 +84,16 @@ fun TaskCard(
 
     val context = LocalContext.current
 
-    Row(
+    val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vibratorManager =
+            context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vibratorManager.defaultVibrator
+    } else {
+        @Suppress("DEPRECATION")
+        context.getSystemService(VIBRATOR_SERVICE) as Vibrator
+    }
+
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
@@ -98,17 +114,17 @@ fun TaskCard(
                         taskViewModel.onEditParamSelected(
                             id = task.id,
                             title = task.title,
-                            repetition = task.repetition,
-                            priority = task.priority,
+                            description = task.description,
+                            subtasks = task.subtasks,
                             date = task.date,
-                            time = task.notification
+                            time = task.notification,
+                            repetition = task.repetition,
+                            priority = task.priority
                         )
                         it()
                     }
                 }
-            },
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+            }
     ) {
 
         Row {
@@ -132,11 +148,21 @@ fun TaskCard(
                     Checkbox(
                         checked = checked,
                         onCheckedChange = { check ->
+                            vibrator.vibrate(
+                                VibrationEffect.createOneShot(
+                                    100,
+                                    255
+                                )
+                            )
                             if (check) {
                                 coroutine.launch {
-                                    checked = true
                                     delay(200)
                                     taskViewModel.completingTask(task.id, context)
+                                }
+                            } else {
+                                coroutine.launch {
+                                    delay(200)
+                                    taskViewModel.cancelCompletingTask(task.id)
                                 }
                             }
                         },
@@ -184,18 +210,18 @@ fun TaskCard(
             }
 
             Column(
-                modifier = Modifier.padding(vertical = 15.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                horizontalAlignment = Alignment.Start
+                modifier = Modifier
+                    .padding(vertical = 15.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-
-                Box(modifier = Modifier.width(300.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     val clipColor = MaterialTheme.colorScheme.onSurface.copy(
                         if (task.isCompleted) 0.5f else 1f
                     )
                     val matchColor = MaterialTheme.colorScheme.primary
 
                     Text(
+                        modifier = Modifier.padding(end = 8.dp),
                         text = buildAnnotatedString {
                             append(task.title)
                             addStyle(
@@ -214,62 +240,95 @@ fun TaskCard(
                                 }
                             }
                         },
-                        maxLines = 4,
+                        maxLines = 3,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Medium,
                             textDecoration = if (task.isCompleted)
                                 TextDecoration.LineThrough
                             else
                                 TextDecoration.None
                         )
                     )
+
+                    if (task.description != null) {
+                        Text(
+                            modifier = Modifier.padding(end = 8.dp),
+                            text = task.description!!,
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Normal),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    val baseColor = when {
-                        task.isCompleted -> MaterialTheme.colorScheme.onSurfaceVariant
-                        task.isOverdue -> MaterialTheme.colorScheme.error
-                        !task.isOverdue -> Green
-                        else -> MaterialTheme.colorScheme.onSurfaceVariant
-                    }
+                if ((task.date != null) or (task.notification != null) or (task.repetition != TaskRepetitionModel()) or (task.subtasks.isNotEmpty())) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        val baseColor = when {
+                            task.isCompleted -> MaterialTheme.colorScheme.onSurfaceVariant
+                            task.isOverdue -> MaterialTheme.colorScheme.error
+                            !task.isOverdue -> Green
+                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                        }
 
-                    if (task.date != null) {
-                        Icon(
-                            modifier = Modifier.size(15.5.dp),
-                            imageVector = ImageVector.vectorResource(R.drawable.ic_calendar),
-                            contentDescription = null,
-                            tint = baseColor
-                        )
+                        if (task.date != null) {
+                            Icon(
+                                modifier = Modifier.size(15.5.dp),
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_calendar),
+                                contentDescription = null,
+                                tint = baseColor
+                            )
 
-                        if (task.isCompleted or task.isOverdue) {
+                            if (task.isCompleted or task.isOverdue) {
+                                Text(
+                                    task.date!!.toDisplayString(locale, context),
+                                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Normal),
+                                    color = baseColor
+                                )
+                            }
+                        }
+
+                        if (task.notification != null) {
                             Text(
-                                task.date!!.toDisplayString(locale, context),
+                                task.notification!!.format(DateTimeFormatter.ofPattern("HH : mm")),
+                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Normal),
+                                color = baseColor
+                            )
+                        }
+
+                        if (task.repetition != TaskRepetitionModel()) {
+                            Icon(
+                                modifier = Modifier.size(13.dp),
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_repeat),
+                                contentDescription = null,
+                                tint = baseColor
+                            )
+                        }
+
+                        if (task.subtasks.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier.size(13.dp),
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_graph),
+                                contentDescription = null,
+                                tint = baseColor
+                            )
+
+                            Text(
+                                "${task.subtasks.count { it.isCompleted }}/${task.subtasks.size}",
                                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Normal),
                                 color = baseColor
                             )
                         }
                     }
-
-                    if (task.notification != null) {
-                        Text(
-                            task.notification!!.format(DateTimeFormatter.ofPattern("HH : mm")),
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Normal),
-                            color = baseColor
-                        )
-                    }
-
-                    if (task.repetition != TaskRepetitionModel()) {
-                        Icon(
-                            modifier = Modifier.size(13.dp),
-                            imageVector = ImageVector.vectorResource(R.drawable.ic_repeat),
-                            contentDescription = null,
-                            tint = baseColor
-                        )
-                    }
                 }
+            }
+        }
+    }
+}
 
 //                if (task.category != null) {
 //                    Row(
@@ -280,12 +339,6 @@ fun TaskCard(
 //                        TextCategory(task.category)
 //                    }
 //                }
-            }
-        }
-    }
-}
-
-
 //const val HASHTAG = "#"
 //
 //@Composable

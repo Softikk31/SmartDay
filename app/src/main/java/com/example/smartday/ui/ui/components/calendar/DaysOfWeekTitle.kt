@@ -1,4 +1,4 @@
-package com.example.smartday.ui.ui.components
+package com.example.smartday.ui.ui.components.calendar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

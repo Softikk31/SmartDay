@@ -30,6 +30,9 @@ interface TaskDao {
     @Query("UPDATE tasks SET is_completed = 1 WHERE id == :taskId")
     suspend fun completingTask(taskId: Long)
 
+    @Query("UPDATE tasks SET is_completed = 0 WHERE id == :taskId")
+    suspend fun cancelCompletingTask(taskId: Long)
+
     @Query("UPDATE tasks SET is_overdue = 1 WHERE id == :taskId")
     suspend fun overdueTask(taskId: Long)
 

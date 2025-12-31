@@ -23,9 +23,9 @@
     <string name="button_cancel">Cancel</string>
     <string name="reminder_set_time">Set reminder time</string>
     <string name="notification_time">Reminder time</string>
-    <string name="task_title">Title</string>
+    <string name="task_title">Task name</string>
     <string name="task_create_button_title_date">Date</string>
-    <string name="task_create_button_title_reminder_time">Reminder time</string>
+    <string name="task_create_button_title_reminder">Reminder</string>
     <string name="title_edit_task">Edit Task</string>
     <string name="time">Time</string>
     <string name="delete">Delete</string>
@@ -46,7 +46,7 @@
     <string name="one_time_repetition">One time</string>
     <string name="toast_warning_null_id">Task cannot exist without ID!</string>
     <string name="save">Save</string>
-    <string name="task_create_button_title_repetition">Repetition</string>
+    <string name="task_create_button_title_repeat">Repeat</string>
     <string name="repeat_never">Don\'t repeat</string>
 
     <string name="repeat_every_workday">Every workday</string>
@@ -100,4 +100,10 @@
 
     <string name="notification_permission_denied">Notification permission not granted</string>
     <string name="task_category_no_time">No time</string>
+    <string name="unknown_route">Unknown route</string>
+    <string name="task_description">Description</string>
+    <string name="add_subtask">Add a subtask</string>
+    <string name="subtask">Subtask</string>
+    <string name="title_language">Language</string>
+    <string name="language_settings_label">Click to change localization</string>
 </resources>

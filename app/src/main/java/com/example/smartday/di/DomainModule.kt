@@ -1,5 +1,6 @@
 package com.example.smartday.di
 
+import com.example.smartday.domain.usecase.task.CancelCompletingTaskUseCase
 import com.example.smartday.domain.usecase.task.CompletingTaskUseCase
 import com.example.smartday.domain.usecase.task.CreateTaskUseCase
 import com.example.smartday.domain.usecase.task.DeleteTaskUseCase
@@ -60,6 +61,10 @@ val domainModule = module {
 
     factory<CompletingTaskUseCase> {
         CompletingTaskUseCase(get())
+    }
+
+    factory<CancelCompletingTaskUseCase> {
+        CancelCompletingTaskUseCase(get())
     }
 
     factory<OverdueTaskUseCase> {

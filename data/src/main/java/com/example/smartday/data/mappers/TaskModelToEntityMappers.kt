@@ -6,6 +6,8 @@ import com.example.smartday.data.sources.local.entities.TaskEntity
 fun TaskModel.toEntity() = TaskEntity(
     id = id,
     title = title,
+    description = description,
+    subtasks = subtasks,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
     repetition = repetition,
@@ -18,6 +20,8 @@ fun TaskModel.toEntity() = TaskEntity(
 fun TaskEntity.toModel() = TaskModel(
     id = id,
     title = title,
+    description = description,
+    subtasks = subtasks,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
     repetition = repetition,

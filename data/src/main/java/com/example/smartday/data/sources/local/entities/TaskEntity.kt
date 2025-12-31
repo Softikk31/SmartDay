@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.smartday.core.enums.TaskPriority
 import com.example.smartday.core.enums.TaskTypeRepetition
 import com.example.smartday.core.enums.TaskTypeRepetitionSystem
+import com.example.smartday.core.models.task.SubtaskModel
 import com.example.smartday.core.models.task.repetition.TaskRepetitionModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -16,6 +17,10 @@ data class TaskEntity(
     val id: Long = 0,
     @ColumnInfo(name = "title")
     val title: String,
+    @ColumnInfo(name = "description", defaultValue = "null")
+    val description: String? = null,
+    @ColumnInfo(name = "subtasks")
+    val subtasks: List<SubtaskModel>,
     @ColumnInfo(name = "is_completed", defaultValue = "false")
     val isCompleted: Boolean = false,
     @ColumnInfo(name = "is_overdue", defaultValue = "false")
